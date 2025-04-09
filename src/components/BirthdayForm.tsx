@@ -78,8 +78,8 @@ const BirthdayForm: React.FC = () => {
       </CardHeader>
       <CardContent>
         {step === 1 ? (
-          <form className="space-y-4">
-            <div className="space-y-2">
+          <form className="space-y-3">
+            <div className="space-y-1">
               <Label htmlFor="name">Name</Label>
               <Input 
                 id="name" 
@@ -91,7 +91,7 @@ const BirthdayForm: React.FC = () => {
             </div>
             
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <Label htmlFor="month">Month</Label>
                 <Select 
                   value={month.toString()} 
@@ -110,7 +110,7 @@ const BirthdayForm: React.FC = () => {
                 </Select>
               </div>
               
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <Label htmlFor="day">Day</Label>
                 <Select 
                   value={day.toString()} 
@@ -134,7 +134,7 @@ const BirthdayForm: React.FC = () => {
               </div>
             </div>
             
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Label htmlFor="message">Message (Optional)</Label>
               <Textarea 
                 id="message" 
@@ -148,8 +148,8 @@ const BirthdayForm: React.FC = () => {
             {error && <p className="text-destructive text-sm">{error}</p>}
           </form>
         ) : (
-          <div className="space-y-4">
-            <div className="space-y-2">
+          <div className="space-y-3">
+            <div className="space-y-1">
               <Label htmlFor="birthdayMessage">Birthday Message</Label>
               <Textarea 
                 id="birthdayMessage" 
