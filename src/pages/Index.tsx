@@ -11,7 +11,7 @@ const Index: React.FC = () => {
           <Cake className="h-8 w-8" />
           <span>Birthday Countdown</span>
         </h1>
-        <p className="text-lg text-muted-foreground mt-2">
+        <p className="text-lg text-zinc-800 mt-2">
           Create a personalized birthday countdown for your loved ones
         </p>
       </div>
