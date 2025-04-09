@@ -53,7 +53,7 @@ const BirthdayForm: React.FC = () => {
         <CardTitle className="text-2xl font-bold text-birthday">
           Create Countdown
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-zinc-800">
           Add a birthday to create a personalized countdown page
         </CardDescription>
       </CardHeader>
