@@ -140,7 +140,7 @@ const Countdown: React.FC<CountdownProps> = ({
               </div>
               
               {message && <div className="bg-gray-50 px-6 py-4 rounded-lg border border-gray-100 mt-4">
-                  <p className={`text-gray-700 text-sm ${textColor || ''}`}>{message}</p>
+                  <p className="text-center">{message}</p>
                 </div>}
 
               {gifUrl && <div className="mt-6">
