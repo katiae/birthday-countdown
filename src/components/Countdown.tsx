@@ -3,6 +3,7 @@ import { ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import ConfettiExplosion from "@/components/ConfettiExplosion";
+import { Link } from "react-router-dom";
 
 interface CountdownProps {
   name: string;
@@ -13,7 +14,6 @@ interface CountdownProps {
   gifUrl?: string;
   birthdayGifUrl?: string;
   textColor?: string;
-  isSharedPage?: boolean;
 }
 
 const Countdown: React.FC<CountdownProps> = ({
@@ -24,8 +24,7 @@ const Countdown: React.FC<CountdownProps> = ({
   birthdayMessage,
   gifUrl,
   birthdayGifUrl,
-  textColor,
-  isSharedPage = false
+  textColor
 }) => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -81,11 +80,11 @@ const Countdown: React.FC<CountdownProps> = ({
     return `${months[month - 1]} ${day}`;
   };
 
-  return <div className="relative w-full max-w-md px-4">
+  return <div className="relative w-full max-w-2xl px-4">
       {showConfetti && <ConfettiExplosion />}
       
       <Card className="border-gray-200 rounded-3xl overflow-hidden">
-        <CardContent className="p-8">
+        <CardContent className="p-12">
           {isToday ? (
             <>
               <h1 className="text-4xl font-bold text-zinc-800 whitespace-normal break-words">
