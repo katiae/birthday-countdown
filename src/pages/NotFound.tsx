@@ -6,7 +6,7 @@ import { Cake } from "lucide-react";
 
 const NotFound: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef] p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="text-center">
         <div className="flex justify-center mb-4">
           <Cake className="h-20 w-20 text-birthday opacity-50" />
