@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { PartyPopper } from "lucide-react";
+import { Calendar } from "lucide-react";
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June", 
@@ -59,14 +59,14 @@ const BirthdayForm: React.FC = () => {
   };
   
   return (
-    <Card className="w-full max-w-md birthday-card">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-birthday">
-          <PartyPopper className="h-6 w-6" />
-          Create Birthday Countdown
+    <Card className="w-full max-w-md shadow-lg border border-gray-200">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl font-bold text-birthday flex items-center gap-2">
+          <Calendar className="h-5 w-5" />
+          Create Countdown
         </CardTitle>
         <CardDescription>
-          Add someone's birthday to create a special countdown page.
+          Add a birthday to create a personalized countdown page
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -75,10 +75,10 @@ const BirthdayForm: React.FC = () => {
             <Label htmlFor="name">Name</Label>
             <Input 
               id="name"
-              placeholder="Enter birthday person's name"
+              placeholder="Enter person's name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="border-birthday/30 focus:border-birthday"
+              className="border-gray-300 focus:border-gray-400 focus:ring-birthday"
             />
           </div>
           
@@ -89,7 +89,7 @@ const BirthdayForm: React.FC = () => {
                 value={month.toString()} 
                 onValueChange={(value) => setMonth(parseInt(value))}
               >
-                <SelectTrigger id="month" className="border-birthday/30 focus:border-birthday">
+                <SelectTrigger id="month" className="border-gray-300 focus:border-gray-400">
                   <SelectValue placeholder="Month" />
                 </SelectTrigger>
                 <SelectContent>
@@ -109,7 +109,7 @@ const BirthdayForm: React.FC = () => {
                 onValueChange={(value) => setDay(parseInt(value))}
                 disabled={month === ""}
               >
-                <SelectTrigger id="day" className="border-birthday/30 focus:border-birthday">
+                <SelectTrigger id="day" className="border-gray-300 focus:border-gray-400">
                   <SelectValue placeholder="Day" />
                 </SelectTrigger>
                 <SelectContent>
@@ -127,10 +127,10 @@ const BirthdayForm: React.FC = () => {
             <Label htmlFor="message">Message (Optional)</Label>
             <Textarea
               id="message"
-              placeholder="Add a personal birthday message"
+              placeholder="Add a personal message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="border-birthday/30 focus:border-birthday min-h-[100px]"
+              className="border-gray-300 focus:border-gray-400 focus:ring-birthday min-h-[100px] resize-none"
             />
           </div>
           
@@ -142,7 +142,7 @@ const BirthdayForm: React.FC = () => {
       <CardFooter>
         <Button 
           onClick={handleSubmit}
-          className="w-full bg-birthday hover:bg-birthday/90"
+          className="w-full bg-birthday-accent hover:bg-birthday-accent/90 text-white"
         >
           Create Birthday Countdown
         </Button>

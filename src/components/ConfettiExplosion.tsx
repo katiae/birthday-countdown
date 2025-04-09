@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from "react";
 
-const CONFETTI_COLORS = ["#FF8EC7", "#FFD166", "#FFFFFF"];
-const CONFETTI_COUNT = 150;
+const CONFETTI_COLORS = ["#FF5733", "#36454F", "#f8f9fa", "#212529"];
+const CONFETTI_COUNT = 120;
 
 interface ConfettiPiece {
   x: number;
@@ -25,12 +25,12 @@ const ConfettiExplosion: React.FC = () => {
       pieces.push({
         x: Math.random() * 100, // Position horizontally (0-100%)
         y: -5 - Math.random() * 10, // Start slightly above the viewport
-        size: 5 + Math.random() * 10, // Random size between 5-15px
+        size: 3 + Math.random() * 7, // Random size between 3-10px
         color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
         rotation: Math.random() * 360,
         animationDuration: 4 + Math.random() * 6, // Duration between 4-10s
         animationDelay: Math.random() * 2, // Delay up to 2s
-        type: ["circle", "square", "triangle"][Math.floor(Math.random() * 3)] as "circle" | "square" | "triangle",
+        type: ["circle", "square"][Math.floor(Math.random() * 2)] as "circle" | "square" | "triangle",
       });
     }
     
@@ -45,21 +45,17 @@ const ConfettiExplosion: React.FC = () => {
           className={`absolute ${
             piece.type === "circle" 
               ? "rounded-full"
-              : piece.type === "square" 
-                ? ""
-                : "triangle"
+              : ""
           }`}
           style={{
             left: `${piece.x}%`,
             top: `${piece.y}%`,
             width: `${piece.size}px`,
             height: `${piece.size}px`,
-            backgroundColor: piece.type !== "triangle" ? piece.color : "transparent",
-            borderLeft: piece.type === "triangle" ? `${piece.size / 2}px solid transparent` : undefined,
-            borderRight: piece.type === "triangle" ? `${piece.size / 2}px solid transparent` : undefined,
-            borderBottom: piece.type === "triangle" ? `${piece.size}px solid ${piece.color}` : undefined,
+            backgroundColor: piece.color,
             transform: `rotate(${piece.rotation}deg)`,
             animation: `confetti-${["slow", "medium", "fast"][Math.floor(Math.random() * 3)]} ${piece.animationDuration}s linear ${piece.animationDelay}s infinite`,
+            opacity: 0.8,
           }}
         />
       ))}

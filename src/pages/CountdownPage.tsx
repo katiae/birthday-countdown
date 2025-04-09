@@ -14,7 +14,7 @@ const CountdownPage: React.FC = () => {
   
   if (!birthday) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#FFDEE2]/50 to-[#FDE1D3]/40 p-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef] p-4">
         <div className="text-center space-y-4">
           <h1 className="text-3xl font-bold text-birthday">Birthday Not Found</h1>
           <p className="text-muted-foreground">
@@ -31,11 +31,11 @@ const CountdownPage: React.FC = () => {
   }
   
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#FFDEE2]/50 to-[#FDE1D3]/40 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef] p-4">
       <div className="w-full max-w-md text-center mb-8">
         <Link to="/" className="inline-flex items-center gap-2 text-birthday hover:text-birthday/80 transition-colors">
           <Cake className="h-6 w-6" />
-          <span className="text-2xl font-bold">Birthday Sparkle</span>
+          <span className="text-2xl font-bold">Birthday Reminder</span>
         </Link>
       </div>
       

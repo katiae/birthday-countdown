@@ -75,62 +75,73 @@ const Countdown: React.FC<CountdownProps> = ({ name, month, day, message }) => {
     toast.success("Link copied to clipboard!");
   };
   
+  const formatDate = () => {
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    return `${months[month - 1]} ${day}`;
+  };
+  
   return (
-    <div className="w-full max-w-md birthday-card bg-white">
+    <div className="w-full max-w-md shadow-lg rounded-lg overflow-hidden bg-white border border-gray-200">
       {isToday && <ConfettiExplosion />}
       
-      <div className="text-center space-y-6">
+      <div className="p-6 text-center space-y-6">
         {isToday ? (
           <>
-            <h1 className="text-3xl font-bold text-birthday">
-              🎉 Happy Birthday, {name}! 🎉
+            <h1 className="text-3xl font-bold text-birthday-accent">
+              Happy Birthday, {name}!
             </h1>
-            <p className="text-lg">Today is the big day!</p>
+            <p className="text-lg text-gray-700">Today is the celebration day</p>
           </>
         ) : (
           <>
-            <h1 className="text-2xl font-bold text-birthday">
-              {name}'s Birthday Countdown
-            </h1>
+            <div className="mb-6">
+              <h1 className="text-2xl font-bold text-birthday mb-1">
+                {name}'s Birthday
+              </h1>
+              <p className="text-gray-500">{formatDate()}</p>
+            </div>
             
-            <div className="grid grid-cols-4 gap-2 my-6">
+            <div className="grid grid-cols-4 gap-3 my-8">
               <div className="flex flex-col items-center">
-                <div className="bg-birthday/10 rounded-lg w-20 h-20 flex items-center justify-center">
+                <div className="bg-gray-50 rounded-md w-full py-4 flex items-center justify-center">
                   <span className="text-3xl font-bold text-birthday">{timeLeft.days}</span>
                 </div>
-                <span className="text-xs mt-1 text-muted-foreground">DAYS</span>
+                <span className="text-xs mt-2 text-gray-500 font-medium">DAYS</span>
               </div>
               <div className="flex flex-col items-center">
-                <div className="bg-birthday/10 rounded-lg w-20 h-20 flex items-center justify-center">
+                <div className="bg-gray-50 rounded-md w-full py-4 flex items-center justify-center">
                   <span className="text-3xl font-bold text-birthday">{timeLeft.hours}</span>
                 </div>
-                <span className="text-xs mt-1 text-muted-foreground">HOURS</span>
+                <span className="text-xs mt-2 text-gray-500 font-medium">HOURS</span>
               </div>
               <div className="flex flex-col items-center">
-                <div className="bg-birthday/10 rounded-lg w-20 h-20 flex items-center justify-center">
+                <div className="bg-gray-50 rounded-md w-full py-4 flex items-center justify-center">
                   <span className="text-3xl font-bold text-birthday">{timeLeft.minutes}</span>
                 </div>
-                <span className="text-xs mt-1 text-muted-foreground">MINUTES</span>
+                <span className="text-xs mt-2 text-gray-500 font-medium">MINUTES</span>
               </div>
               <div className="flex flex-col items-center">
-                <div className="bg-birthday/10 rounded-lg w-20 h-20 flex items-center justify-center">
+                <div className="bg-gray-50 rounded-md w-full py-4 flex items-center justify-center">
                   <span className="text-3xl font-bold text-birthday">{timeLeft.seconds}</span>
                 </div>
-                <span className="text-xs mt-1 text-muted-foreground">SECONDS</span>
+                <span className="text-xs mt-2 text-gray-500 font-medium">SECONDS</span>
               </div>
             </div>
           </>
         )}
         
         {message && (
-          <div className="my-6 px-6 py-4 bg-birthday/5 rounded-lg border border-birthday/20">
-            <p className="italic text-gray-700">{message}</p>
+          <div className="my-6 px-6 py-4 bg-gray-50 rounded-md border border-gray-100">
+            <p className="text-gray-700">{message}</p>
           </div>
         )}
         
         <Button 
           onClick={handleShare}
-          className="mt-4 flex items-center gap-2 bg-birthday-gold hover:bg-birthday-gold/90 text-white"
+          className="mt-4 flex items-center gap-2 bg-birthday hover:bg-birthday/90 text-white"
         >
           <Share className="h-4 w-4" />
           Share This Countdown
