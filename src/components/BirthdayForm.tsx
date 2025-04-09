@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Search, Image } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, Image, ExternalLink } from "lucide-react";
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const getDaysInMonth = (month: number) => {
@@ -38,6 +38,7 @@ const BirthdayForm: React.FC = () => {
   const [gifs, setGifs] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showGifSelector, setShowGifSelector] = useState(false);
+  const [gifSource, setGifSource] = useState<string>("");
   
   const GIPHY_API_KEY = "HSywBBfgSLZraR9nrthjwbdMc2bLW9Ti"; // Public API key for Giphy
   
@@ -102,10 +103,19 @@ const BirthdayForm: React.FC = () => {
     navigate(`/countdown/${birthdayId}`);
   };
 
-  const selectGif = (url: string) => {
+  const selectGif = (url: string, sourceUrl: string) => {
     setGifUrl(url);
+    setGifSource(sourceUrl);
     setShowGifSelector(false);
     toast.success("GIF selected!");
+  };
+
+  const openGiphySource = () => {
+    if (gifSource) {
+      window.open(gifSource, "_blank");
+    } else {
+      window.open("https://giphy.com/", "_blank");
+    }
   };
 
   return (
@@ -190,7 +200,7 @@ const BirthdayForm: React.FC = () => {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="gif">Add a GIF (Optional)</Label>
+              <Label htmlFor="gif">Add a GIF from Giphy (Optional)</Label>
               
               {gifUrl ? (
                 <div className="relative">
@@ -199,14 +209,29 @@ const BirthdayForm: React.FC = () => {
                     alt="Selected GIF" 
                     className="w-full h-32 object-contain border border-gray-300 rounded-lg mb-2" 
                   />
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="absolute top-2 right-2 bg-white h-8 w-8 p-0"
-                    onClick={() => setGifUrl("")}
-                  >
-                    ✕
-                  </Button>
+                  <div className="flex justify-between items-center mt-1">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="text-xs h-8"
+                      onClick={openGiphySource}
+                    >
+                      <span>Via Giphy</span>
+                      <ExternalLink className="ml-1 h-3 w-3" />
+                    </Button>
+                    
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="bg-white h-8 w-8 p-0"
+                      onClick={() => {
+                        setGifUrl("");
+                        setGifSource("");
+                      }}
+                    >
+                      ✕
+                    </Button>
+                  </div>
                 </div>
               ) : (
                 <Button 
@@ -216,7 +241,7 @@ const BirthdayForm: React.FC = () => {
                   onClick={() => setShowGifSelector(!showGifSelector)}
                 >
                   <Image className="h-4 w-4" />
-                  Select a GIF
+                  Select a GIF from Giphy
                 </Button>
               )}
               
@@ -241,6 +266,19 @@ const BirthdayForm: React.FC = () => {
                     </Button>
                   </div>
                   
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-xs text-gray-500">Powered by</span>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6 px-2 py-0"
+                      onClick={() => window.open("https://giphy.com/", "_blank")}
+                    >
+                      <span className="font-bold text-sm">GIPHY</span>
+                      <ExternalLink className="ml-1 h-3 w-3" />
+                    </Button>
+                  </div>
+                  
                   {isSearching ? (
                     <div className="h-40 flex items-center justify-center">
                       <p>Loading...</p>
@@ -253,7 +291,7 @@ const BirthdayForm: React.FC = () => {
                           src={gif.images.fixed_height_small.url}
                           alt={gif.title}
                           className="w-full h-20 object-cover cursor-pointer rounded border border-transparent hover:border-birthday"
-                          onClick={() => selectGif(gif.images.original.url)}
+                          onClick={() => selectGif(gif.images.original.url, gif.url)}
                         />
                       ))}
                       {gifs.length === 0 && gifSearch && (

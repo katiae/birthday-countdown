@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect } from "react";
 import ConfettiExplosion from "@/components/ConfettiExplosion";
+import { ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface CountdownProps {
   name: string;
@@ -163,6 +165,17 @@ const Countdown: React.FC<CountdownProps> = ({
                   alt="Birthday GIF" 
                   className="mx-auto max-h-40 object-contain rounded"
                 />
+                <div className="mt-2 flex justify-end">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 px-2 py-0 text-xs"
+                    onClick={() => window.open("https://giphy.com/", "_blank")}
+                  >
+                    <span>Via Giphy</span>
+                    <ExternalLink className="ml-1 h-3 w-3" />
+                  </Button>
+                </div>
               </div>
             )}
           </div>
