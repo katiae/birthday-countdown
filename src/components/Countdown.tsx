@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import ConfettiExplosion from "@/components/ConfettiExplosion";
 import { Link } from "react-router-dom";
-
 interface CountdownProps {
   name: string;
   month: number;
@@ -15,7 +14,6 @@ interface CountdownProps {
   birthdayGifUrl?: string;
   textColor?: string;
 }
-
 const Countdown: React.FC<CountdownProps> = ({
   name,
   month,
@@ -35,11 +33,9 @@ const Countdown: React.FC<CountdownProps> = ({
   const [isToday, setIsToday] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [isBehind, setIsBehind] = useState(false);
-
   useEffect(() => {
     document.title = isToday ? "Today is your day" : "The countdown begins";
   }, [isToday]);
-
   useEffect(() => {
     const checkBirthday = () => {
       const now = new Date();
@@ -78,83 +74,65 @@ const Countdown: React.FC<CountdownProps> = ({
     const timer = setInterval(calculateTimeLeft, 1000);
     return () => clearInterval(timer);
   }, [month, day]);
-
   const formatDate = () => {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return `${months[month - 1]} ${day}`;
   };
-
   return <div className="relative w-full max-w-2xl px-4">
       {showConfetti && <ConfettiExplosion />}
       
       <Card className="border-gray-200 rounded-3xl overflow-hidden">
         <CardContent className="p-8">
-          {isToday ? (
-            <>
+          {isToday ? <>
               <h1 className="text-4xl font-bold text-zinc-800 whitespace-normal break-words">
                 <span className="block">Happy Birthday,</span>
                 <span className="block">{name}!</span>
               </h1>
               
-              {birthdayMessage && (
-                <div className="my-8 px-10 py-8 bg-gray-50 rounded-md border border-gray-100">
+              {birthdayMessage && <div className="my-8 px-10 py-8 bg-gray-50 rounded-md border border-gray-100">
                   <p className="text-lg text-zinc-800">
                     {birthdayMessage}
                   </p>
                   
-                  {birthdayGifUrl && (
-                    <div className="mt-4">
-                      <img 
-                        src={birthdayGifUrl} 
-                        alt="Birthday GIF" 
-                        className="mx-auto max-h-80 object-contain rounded"
-                      />
+                  {birthdayGifUrl && <div className="mt-4">
+                      <img src={birthdayGifUrl} alt="Birthday GIF" className="mx-auto max-h-80 object-contain rounded" />
                       <div className="mt-2 flex justify-end">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-6 px-2 py-0 text-xs"
-                          onClick={() => window.open("https://giphy.com/", "_blank")}
-                        >
+                        <Button variant="ghost" size="sm" className="h-6 px-2 py-0 text-xs" onClick={() => window.open("https://giphy.com/", "_blank")}>
                           <span>Via Giphy</span>
                           <ExternalLink className="ml-1 h-3 w-3" />
                         </Button>
                       </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </>
-          ) : (
-            <>
+                    </div>}
+                </div>}
+            </> : <>
               <h1 className="text-4xl font-bold text-zinc-800 whitespace-normal break-words">
                 <span className="block">{isBehind ? `${name}'s next birthday in` : `${name}'s birthday in`}</span>
               </h1>
               
               <div className="flex justify-center gap-4 mt-6">
                 <div className="flex flex-col items-center">
-                  <div className="text-4xl font-bold bg-birthday-accent/10 text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center">
+                  <div className="text-4xl font-bold text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100">
                     {timeLeft.days}
                   </div>
                   <span className="text-xs text-gray-500 mt-1">Days</span>
                 </div>
                 
                 <div className="flex flex-col items-center">
-                  <div className="text-4xl font-bold bg-birthday-accent/10 text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center">
+                  <div className="text-4xl font-bold text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100">
                     {timeLeft.hours}
                   </div>
                   <span className="text-xs text-gray-500 mt-1">Hours</span>
                 </div>
                 
                 <div className="flex flex-col items-center">
-                  <div className="text-4xl font-bold bg-birthday-accent/10 text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center">
+                  <div className="text-4xl font-bold text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100">
                     {timeLeft.minutes}
                   </div>
                   <span className="text-xs text-gray-500 mt-1">Minutes</span>
                 </div>
                 
                 <div className="flex flex-col items-center">
-                  <div className="text-4xl font-bold bg-birthday-accent/10 text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center">
+                  <div className="text-4xl font-bold text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100">
                     {timeLeft.seconds}
                   </div>
                   <span className="text-xs text-gray-500 mt-1">Seconds</span>
@@ -165,31 +143,18 @@ const Countdown: React.FC<CountdownProps> = ({
                   <p className={`text-gray-700 text-sm ${textColor || ''}`}>{message}</p>
                 </div>}
 
-              {gifUrl && (
-                <div className="mt-6">
-                  <img 
-                    src={gifUrl} 
-                    alt="GIF" 
-                    className="mx-auto max-h-80 object-contain rounded"
-                  />
+              {gifUrl && <div className="mt-6">
+                  <img src={gifUrl} alt="GIF" className="mx-auto max-h-80 object-contain rounded" />
                   <div className="mt-2 flex justify-end">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 px-2 py-0 text-xs"
-                      onClick={() => window.open("https://giphy.com/", "_blank")}
-                    >
+                    <Button variant="ghost" size="sm" className="h-6 px-2 py-0 text-xs" onClick={() => window.open("https://giphy.com/", "_blank")}>
                       <span>Via Giphy</span>
                       <ExternalLink className="ml-1 h-3 w-3" />
                     </Button>
                   </div>
-                </div>
-              )}
-            </>
-          )}
+                </div>}
+            </>}
         </CardContent>
       </Card>
     </div>;
 };
-
 export default Countdown;
