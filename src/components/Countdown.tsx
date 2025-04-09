@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import ConfettiExplosion from "@/components/ConfettiExplosion";
 
@@ -95,7 +96,7 @@ const Countdown: React.FC<CountdownProps> = ({
             <h1 className="text-3xl font-bold text-birthday-accent">
               Happy Birthday, {name}!
             </h1>
-            <p className="text-lg text-gray-700">Today is the celebration day</p>
+            <p className="text-lg text-birthday-accent">Today is the celebration day</p>
           </>
         ) : (
           <>
@@ -103,7 +104,7 @@ const Countdown: React.FC<CountdownProps> = ({
               <h1 className="text-2xl font-bold text-birthday mb-1">
                 {name}'s Birthday
               </h1>
-              <p className="text-gray-500">{formatDate()}</p>
+              <p className="text-birthday">{formatDate()}</p>
             </div>
             
             <div className="grid grid-cols-4 gap-4 my-10">
@@ -137,7 +138,7 @@ const Countdown: React.FC<CountdownProps> = ({
         
         {message && (
           <div className="my-6 px-8 py-5 bg-gray-50 rounded-md border border-gray-100">
-            <p className="text-gray-700">{message}</p>
+            <p className="text-birthday">{message}</p>
           </div>
         )}
       </div>
