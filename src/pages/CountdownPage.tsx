@@ -39,7 +39,8 @@ const CountdownPage: React.FC = () => {
     try {
       if (!birthday) throw new Error("No birthday to share");
       
-      const shareUrl = `${window.location.origin}/countdown/${birthday.id}`;
+      const shareUrl = `${window.location.origin}/?name=${encodeURIComponent(birthday.name)}&date=${encodeURIComponent(`${birthday.month}-${birthday.day}`)}&message=${encodeURIComponent(birthday.message || '')}&birthdayMessage=${encodeURIComponent(birthday.birthdayMessage || '')}&gifUrl=${encodeURIComponent(birthday.gifUrl || '')}&birthdayGifUrl=${encodeURIComponent(birthday.birthdayGifUrl || '')}`;
+      
       await navigator.clipboard.writeText(shareUrl);
       toast.success("Link copied to clipboard!");
     } catch (error) {
@@ -102,7 +103,7 @@ const CountdownPage: React.FC = () => {
             Create Your Own
           </Button>
         </Link>
-        <Button 
+        <Button
           onClick={handleShare} 
           className="flex items-center gap-2 bg-birthday hover:bg-birthday/90 text-white"
         >

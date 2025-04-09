@@ -13,6 +13,7 @@ interface CountdownProps {
   gifUrl?: string;
   birthdayGifUrl?: string;
   textColor?: string;
+  isSharedPage?: boolean;
 }
 
 const Countdown: React.FC<CountdownProps> = ({ 
@@ -23,7 +24,8 @@ const Countdown: React.FC<CountdownProps> = ({
   birthdayMessage, 
   gifUrl, 
   birthdayGifUrl,
-  textColor 
+  textColor,
+  isSharedPage = false
 }) => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -36,6 +38,26 @@ const Countdown: React.FC<CountdownProps> = ({
   const [isBehind, setIsBehind] = useState(false);
 
   useEffect(() => {
+    const checkBirthday = () => {
+      const now = new Date();
+      const todayIsBirthday = 
+        now.getDate() === day && 
+        now.getMonth() === month - 1;
+      
+      setIsToday(todayIsBirthday);
+      
+      if (todayIsBirthday) {
+        setShowConfetti(true);
+        const confettiTimer = setTimeout(() => {
+          setShowConfetti(false);
+        }, 8000);
+        return () => clearTimeout(confettiTimer);
+      }
+    };
+
+    // Initial check
+    checkBirthday();
+
     const calculateTimeLeft = () => {
       const now = new Date();
       const currentYear = now.getFullYear();
@@ -49,17 +71,6 @@ const Countdown: React.FC<CountdownProps> = ({
         setIsBehind(false);
       }
       
-      const todayIsBirthday = 
-        now.getDate() === day && 
-        now.getMonth() === month - 1;
-      
-      setIsToday(todayIsBirthday);
-      
-      if (todayIsBirthday) {
-        setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 8000);
-      }
-
       const difference = birthdayThisYear.getTime() - now.getTime();
       
       setTimeLeft({
