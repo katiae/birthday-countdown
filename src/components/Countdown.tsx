@@ -87,10 +87,10 @@ const Countdown: React.FC<CountdownProps> = ({
   };
 
   return (
-    <div className="w-full max-w-md overflow-hidden bg-white border border-gray-200 rounded-3xl">
+    <div className="w-full max-w-lg overflow-hidden bg-white border border-gray-200 rounded-3xl">
       {isToday && <ConfettiExplosion />}
       
-      <div className="p-8 text-center space-y-6 rounded-full">
+      <div className="p-10 text-center space-y-6 rounded-full">
         {isToday ? (
           <>
             <h1 className="text-3xl font-bold text-birthday-accent">
@@ -107,28 +107,28 @@ const Countdown: React.FC<CountdownProps> = ({
               <p className="text-gray-500">{formatDate()}</p>
             </div>
             
-            <div className="grid grid-cols-4 gap-3 my-8">
+            <div className="grid grid-cols-4 gap-4 my-10">
               <div className="flex flex-col items-center">
-                <div className="bg-gray-50 rounded-md w-full py-4 flex items-center justify-center">
-                  <span className="text-3xl font-bold text-birthday">{timeLeft.days}</span>
+                <div className="bg-gray-50 rounded-md w-full py-5 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-birthday">{timeLeft.days}</span>
                 </div>
                 <span className="text-xs mt-2 text-gray-500 font-medium">DAYS</span>
               </div>
               <div className="flex flex-col items-center">
-                <div className="bg-gray-50 rounded-md w-full py-4 flex items-center justify-center">
-                  <span className="text-3xl font-bold text-birthday">{timeLeft.hours}</span>
+                <div className="bg-gray-50 rounded-md w-full py-5 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-birthday">{timeLeft.hours}</span>
                 </div>
                 <span className="text-xs mt-2 text-gray-500 font-medium">HOURS</span>
               </div>
               <div className="flex flex-col items-center">
-                <div className="bg-gray-50 rounded-md w-full py-4 flex items-center justify-center">
-                  <span className="text-3xl font-bold text-birthday">{timeLeft.minutes}</span>
+                <div className="bg-gray-50 rounded-md w-full py-5 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-birthday">{timeLeft.minutes}</span>
                 </div>
                 <span className="text-xs mt-2 text-gray-500 font-medium">MINUTES</span>
               </div>
               <div className="flex flex-col items-center">
-                <div className="bg-gray-50 rounded-md w-full py-4 flex items-center justify-center">
-                  <span className="text-3xl font-bold text-birthday">{timeLeft.seconds}</span>
+                <div className="bg-gray-50 rounded-md w-full py-5 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-birthday">{timeLeft.seconds}</span>
                 </div>
                 <span className="text-xs mt-2 text-gray-500 font-medium">SECONDS</span>
               </div>
@@ -137,7 +137,7 @@ const Countdown: React.FC<CountdownProps> = ({
         )}
         
         {message && (
-          <div className="my-6 px-6 py-4 bg-gray-50 rounded-md border border-gray-100">
+          <div className="my-6 px-8 py-5 bg-gray-50 rounded-md border border-gray-100">
             <p className="text-gray-700">{message}</p>
           </div>
         )}
