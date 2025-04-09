@@ -4,13 +4,20 @@ import { useParams, Link } from "react-router-dom";
 import { useBirthday } from "@/contexts/BirthdayContext";
 import Countdown from "@/components/Countdown";
 import { Button } from "@/components/ui/button";
-import { Cake } from "lucide-react";
+import { Cake, Share } from "lucide-react";
+import { toast } from "sonner";
 
 const CountdownPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { getBirthdayById } = useBirthday();
   
   const birthday = id ? getBirthdayById(id) : undefined;
+  
+  const handleShare = async () => {
+    // Get the current URL and copy it to clipboard
+    await navigator.clipboard.writeText(window.location.href);
+    toast.success("Link copied to clipboard!");
+  };
   
   if (!birthday) {
     return (
@@ -46,12 +53,19 @@ const CountdownPage: React.FC = () => {
         message={birthday.message}
       />
       
-      <div className="mt-8">
+      <div className="mt-8 flex gap-4">
         <Link to="/">
           <Button variant="outline" className="border-birthday text-birthday hover:bg-birthday/5">
             Create Your Own
           </Button>
         </Link>
+        <Button 
+          onClick={handleShare} 
+          className="flex items-center gap-2 bg-birthday hover:bg-birthday/90 text-white"
+        >
+          <Share className="h-4 w-4" />
+          Share
+        </Button>
       </div>
     </div>
   );

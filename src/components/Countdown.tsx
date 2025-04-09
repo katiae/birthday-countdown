@@ -1,15 +1,14 @@
 
 import React, { useState, useEffect } from "react";
-import { Share } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 import ConfettiExplosion from "@/components/ConfettiExplosion";
+
 interface CountdownProps {
   name: string;
   month: number;
   day: number;
   message?: string;
 }
+
 const Countdown: React.FC<CountdownProps> = ({
   name,
   month,
@@ -28,6 +27,7 @@ const Countdown: React.FC<CountdownProps> = ({
     seconds: 0
   });
   const [isToday, setIsToday] = useState(false);
+
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
@@ -53,6 +53,7 @@ const Countdown: React.FC<CountdownProps> = ({
           seconds: 0
         };
       }
+
       const difference = birthdayThisYear.getTime() - now.getTime();
       if (difference > 0) {
         return {
@@ -79,25 +80,26 @@ const Countdown: React.FC<CountdownProps> = ({
     }, 1000);
     return () => clearInterval(timer);
   }, [month, day]);
-  const handleShare = async () => {
-    // Get the current URL and copy it to clipboard
-    await navigator.clipboard.writeText(window.location.href);
-    toast.success("Link copied to clipboard!");
-  };
+
   const formatDate = () => {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return `${months[month - 1]} ${day}`;
   };
-  return <div className="w-full max-w-md overflow-hidden bg-white border border-gray-200 rounded-3xl">
+
+  return (
+    <div className="w-full max-w-md overflow-hidden bg-white border border-gray-200 rounded-3xl">
       {isToday && <ConfettiExplosion />}
       
       <div className="p-8 text-center space-y-6 rounded-full">
-        {isToday ? <>
+        {isToday ? (
+          <>
             <h1 className="text-3xl font-bold text-birthday-accent">
               Happy Birthday, {name}!
             </h1>
             <p className="text-lg text-gray-700">Today is the celebration day</p>
-          </> : <>
+          </>
+        ) : (
+          <>
             <div className="mb-6">
               <h1 className="text-2xl font-bold text-birthday mb-1">
                 {name}'s Birthday
@@ -131,17 +133,17 @@ const Countdown: React.FC<CountdownProps> = ({
                 <span className="text-xs mt-2 text-gray-500 font-medium">SECONDS</span>
               </div>
             </div>
-          </>}
+          </>
+        )}
         
-        {message && <div className="my-6 px-6 py-4 bg-gray-50 rounded-md border border-gray-100">
+        {message && (
+          <div className="my-6 px-6 py-4 bg-gray-50 rounded-md border border-gray-100">
             <p className="text-gray-700">{message}</p>
-          </div>}
-        
-        <Button onClick={handleShare} className="mt-4 flex items-center gap-2 bg-birthday hover:bg-birthday/90 text-white">
-          <Share className="h-4 w-4" />
-          Share This Countdown
-        </Button>
+          </div>
+        )}
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default Countdown;
