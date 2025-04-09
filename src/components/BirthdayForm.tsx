@@ -82,7 +82,7 @@ const BirthdayForm: React.FC = () => {
             <div className="space-y-2">
               <Label htmlFor="day">Day</Label>
               <Select value={day.toString()} onValueChange={value => setDay(parseInt(value))} disabled={month === ""}>
-                <SelectTrigger id="day" className="border-gray-300 focus:border-gray-400 rounded-lg">
+                <SelectTrigger id="day" className="border-gray-300 focus:border-gray-400 rounded-xl">
                   <SelectValue placeholder="Day" />
                 </SelectTrigger>
                 <SelectContent>
