@@ -42,7 +42,7 @@ const CountdownPage: React.FC = () => {
         now.getDate() === birthday.day && 
         now.getMonth() === birthday.month - 1;
       
-      document.title = todayIsBirthday ? "Today is your day" : "The countdown begins";
+      document.title = todayIsBirthday ? "Today is the day" : "The countdown begins";
     } else {
       document.title = "Birthday Countdown";
     }
