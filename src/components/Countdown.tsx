@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from "react";
 import { ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import ConfettiExplosion from "@/components/ConfettiExplosion";
+
 interface CountdownProps {
   name: string;
   month: number;
@@ -14,6 +16,7 @@ interface CountdownProps {
   textColor?: string;
   isSharedPage?: boolean;
 }
+
 const Countdown: React.FC<CountdownProps> = ({
   name,
   month,
@@ -34,6 +37,7 @@ const Countdown: React.FC<CountdownProps> = ({
   const [isToday, setIsToday] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [isBehind, setIsBehind] = useState(false);
+
   useEffect(() => {
     const checkBirthday = () => {
       const now = new Date();
@@ -72,10 +76,12 @@ const Countdown: React.FC<CountdownProps> = ({
     const timer = setInterval(calculateTimeLeft, 1000);
     return () => clearInterval(timer);
   }, [month, day]);
+
   const formatDate = () => {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return `${months[month - 1]} ${day}`;
   };
+
   return <div className="relative w-full max-w-md px-4">
       {showConfetti && <ConfettiExplosion />}
       
@@ -87,7 +93,7 @@ const Countdown: React.FC<CountdownProps> = ({
               </h1>
               
               {birthdayMessage && <div className="my-6 px-8 py-6 bg-gray-50 rounded-md border border-gray-100">
-                  <p className="text-base text-zinc-800 text-left">
+                  <p className={`text-base ${textColor || 'text-zinc-800'} text-left`}>
                     {birthdayMessage}
                   </p>
                   
@@ -136,8 +142,8 @@ const Countdown: React.FC<CountdownProps> = ({
                 </div>
               </div>
               
-              {message && <div className="bg-gray-50 px-6 py-4 rounded-lg border border-gray-100">
-                  <p className="text-gray-700 text-sm">{message}</p>
+              {message && <div className="bg-gray-50 px-6 py-4 rounded-lg border border-gray-100 mt-4">
+                  <p className={`text-gray-700 text-sm ${textColor || ''}`}>{message}</p>
                 </div>}
 
               {gifUrl && <div className="mt-4">
@@ -154,4 +160,5 @@ const Countdown: React.FC<CountdownProps> = ({
       </Card>
     </div>;
 };
+
 export default Countdown;
