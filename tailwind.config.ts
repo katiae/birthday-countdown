@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,6 +53,13 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				birthday: {
+					DEFAULT: 'hsl(var(--birthday))',
+					foreground: 'hsl(var(--birthday-foreground))',
+					accent: 'hsl(var(--birthday-accent))',
+					muted: 'hsl(var(--birthday-muted))',
+					gold: 'hsl(var(--birthday-gold))',
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -84,11 +92,38 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0)'
+					},
+					'50%': {
+						transform: 'translateY(-10px)'
+					}
+				},
+				'confetti-slow': {
+					'0%': { transform: 'translateY(0) rotate(0deg)' },
+					'100%': { transform: 'translateY(100vh) rotate(360deg)' }
+				},
+				'confetti-medium': {
+					'0%': { transform: 'translateY(0) rotate(0deg)' },
+					'100%': { transform: 'translateY(100vh) rotate(720deg)' }
+				},
+				'confetti-fast': {
+					'0%': { transform: 'translateY(0) rotate(0deg)' },
+					'100%': { transform: 'translateY(100vh) rotate(1080deg)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'float': 'float 6s ease-in-out infinite',
+				'confetti-slow': 'confetti-slow 6s ease-in-out infinite',
+				'confetti-medium': 'confetti-medium 5s ease-in-out infinite',
+				'confetti-fast': 'confetti-fast 4s ease-in-out infinite'
+			},
+			backgroundImage: {
+				'confetti-pattern': "url('/confetti-bg.svg')",
 			}
 		}
 	},
