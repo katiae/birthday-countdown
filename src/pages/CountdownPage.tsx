@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useBirthday, getLocalStorageBirthdays, Birthday } from "@/contexts/BirthdayContext";
@@ -12,49 +11,50 @@ const CountdownPage: React.FC = () => {
   const { getBirthdayById } = useBirthday();
   const [birthday, setBirthday] = useState<Birthday | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   useEffect(() => {
     if (!id) {
       setIsLoading(false);
       return;
     }
-    
+
     console.log(`Looking for birthday with ID: ${id}`);
-    
-    // Immediately try to find from localStorage first (most reliable source)
+
     const localBirthdays = getLocalStorageBirthdays();
     console.log("All birthdays in localStorage:", localBirthdays);
-    
+
     const foundBirthday = localBirthdays.find(b => b.id === id);
-    
+
     if (foundBirthday) {
       console.log("Found birthday directly in localStorage:", foundBirthday);
       setBirthday(foundBirthday);
       setIsLoading(false);
       return;
     }
-    
-    // If not found in localStorage, try from context
+
     const contextBirthday = getBirthdayById(id);
     if (contextBirthday) {
       console.log("Found birthday from context:", contextBirthday);
       setBirthday(contextBirthday);
     }
-    
-    // Always finish loading
+
     setIsLoading(false);
   }, [id, getBirthdayById]);
-  
+
   const handleShare = async () => {
     try {
-      // Get the current URL and copy it to clipboard
-      await navigator.clipboard.writeText(window.location.href);
+      if (!birthday) throw new Error("No birthday to share");
+      const name = encodeURIComponent(birthday.name);
+      const date = encodeURIComponent(`${birthday.month}-${birthday.day}`); // Or adjust format as needed
+      const shareUrl = `${window.location.origin}/?name=${name}&date=${date}`;
+      await navigator.clipboard.writeText(shareUrl);
       toast.success("Link copied to clipboard!");
     } catch (error) {
       toast.error("Failed to copy link to clipboard");
+      console.error(error);
     }
   };
-  
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
@@ -64,7 +64,7 @@ const CountdownPage: React.FC = () => {
       </div>
     );
   }
-  
+
   if (!birthday) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
@@ -82,7 +82,7 @@ const CountdownPage: React.FC = () => {
       </div>
     );
   }
-  
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-md text-center mb-8">
@@ -91,7 +91,7 @@ const CountdownPage: React.FC = () => {
           <span className="text-2xl font-bold">Birthday Countdown</span>
         </Link>
       </div>
-      
+
       <Countdown 
         name={birthday.name}
         month={birthday.month}
@@ -101,7 +101,7 @@ const CountdownPage: React.FC = () => {
         gifUrl={birthday.gifUrl}
         birthdayGifUrl={birthday.birthdayGifUrl}
       />
-      
+
       <div className="mt-8 flex gap-4">
         <Link to="/">
           <Button variant="outline" className="border-birthday text-birthday hover:bg-birthday/5">
