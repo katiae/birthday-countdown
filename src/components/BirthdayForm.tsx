@@ -66,7 +66,7 @@ const BirthdayForm: React.FC = () => {
 
   return (
     <Card className="w-full max-w-md border border-gray-200 rounded-3xl">
-      <CardHeader className="space-y-1">
+      <CardHeader className="space-y-1 px-8 pt-8">
         <CardTitle className="text-2xl font-bold text-birthday">
           {step === 1 ? "Create Countdown" : "Customize Birthday Message"}
         </CardTitle>
@@ -76,7 +76,7 @@ const BirthdayForm: React.FC = () => {
             : "Add a special message that will appear on the birthday"}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-8">
         {step === 1 ? (
           <form className="space-y-4">
             <div className="space-y-1">
@@ -165,7 +165,7 @@ const BirthdayForm: React.FC = () => {
           </div>
         )}
       </CardContent>
-      <CardFooter className={step === 2 ? "flex justify-between" : ""}>
+      <CardFooter className={`px-8 pb-8 ${step === 2 ? "flex justify-between" : ""}`}>
         {step === 1 ? (
           <Button 
             onClick={handleNextStep} 
