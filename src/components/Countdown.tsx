@@ -76,34 +76,6 @@ const Countdown: React.FC<CountdownProps> = ({
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return `${months[month - 1]} ${day}`;
   };
-<<<<<<< HEAD
-
-  return (
-    <div className="relative w-full max-w-2xl px-4">
-      {showConfetti && <ConfettiExplosion />}
-      
-      <Card className="border-gray-200 rounded-3xl overflow-hidden">
-        <CardContent className="p-12">
-          {isToday ? (
-            <>
-              <h1 className="text-4xl font-bold text-zinc-800">
-                Happy Birthday, {name}!
-              </h1>
-              
-              {birthdayMessage && (
-                <div className="my-8 px-10 py-8 bg-gray-50 rounded-md border border-gray-100">
-                  <p className="text-lg text-zinc-800">
-                    {birthdayMessage}
-                  </p>
-                  
-                  {birthdayGifUrl && (
-                    <div className="mt-4">
-                      <img 
-                        src={birthdayGifUrl} 
-                        alt="Birthday GIF" 
-                        className="mx-auto max-h-48 object-contain rounded"
-                      />
-=======
   return <div className="relative w-full max-w-md px-4">
       {showConfetti && <ConfettiExplosion />}
       
@@ -115,89 +87,55 @@ const Countdown: React.FC<CountdownProps> = ({
               </h1>
               
               {birthdayMessage && <div className="my-6 px-8 py-6 bg-gray-50 rounded-md border border-gray-100">
-                  <p className="text-base text-zinc-800 text-center">
+                  <p className="text-base text-zinc-800 text-left">
                     {birthdayMessage}
                   </p>
                   
                   {birthdayGifUrl && <div className="mt-3">
                       <img src={birthdayGifUrl} alt="Birthday GIF" className="mx-auto max-h-40 object-contain rounded" />
->>>>>>> 16d4f263e363536b0ae76b0b846d6ec474d607c3
                       <div className="mt-2 flex justify-end">
                         <Button variant="ghost" size="sm" className="h-6 px-2 py-0 text-xs" onClick={() => window.open("https://giphy.com/", "_blank")}>
                           <span>Via Giphy</span>
                           <ExternalLink className="ml-1 h-3 w-3" />
                         </Button>
                       </div>
-<<<<<<< HEAD
-                    </div>
-                  )}
-                </div>
-              )}
-            </>
-          ) : (
-            <>
-              <h1 className="text-4xl font-bold text-zinc-800">
-=======
                     </div>}
                 </div>}
             </> : <>
               <h1 className="text-3xl font-bold text-zinc-800">
->>>>>>> 16d4f263e363536b0ae76b0b846d6ec474d607c3
                 {isBehind ? "Next Birthday in" : "Birthday in"}
               </h1>
               
-              <div className="flex justify-center gap-6 mt-8">
+              <div className="flex justify-center gap-4 mt-6">
                 <div className="flex flex-col items-center">
-                  <div className="text-5xl font-bold bg-birthday-accent/10 text-birthday-accent rounded-xl w-20 h-20 flex items-center justify-center">
+                  <div className="text-4xl font-bold bg-birthday-accent/10 text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center">
                     {timeLeft.days}
                   </div>
-                  <span className="text-sm text-gray-500 mt-2">Days</span>
+                  <span className="text-xs text-gray-500 mt-1">Days</span>
                 </div>
                 
                 <div className="flex flex-col items-center">
-                  <div className="text-5xl font-bold bg-birthday-accent/10 text-birthday-accent rounded-xl w-20 h-20 flex items-center justify-center">
+                  <div className="text-4xl font-bold bg-birthday-accent/10 text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center">
                     {timeLeft.hours}
                   </div>
-                  <span className="text-sm text-gray-500 mt-2">Hours</span>
+                  <span className="text-xs text-gray-500 mt-1">Hours</span>
                 </div>
                 
                 <div className="flex flex-col items-center">
-                  <div className="text-5xl font-bold bg-birthday-accent/10 text-birthday-accent rounded-xl w-20 h-20 flex items-center justify-center">
+                  <div className="text-4xl font-bold bg-birthday-accent/10 text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center">
                     {timeLeft.minutes}
                   </div>
-                  <span className="text-sm text-gray-500 mt-2">Minutes</span>
+                  <span className="text-xs text-gray-500 mt-1">Minutes</span>
                 </div>
                 
                 <div className="flex flex-col items-center">
-                  <div className="text-5xl font-bold bg-birthday-accent/10 text-birthday-accent rounded-xl w-20 h-20 flex items-center justify-center">
+                  <div className="text-4xl font-bold bg-birthday-accent/10 text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center">
                     {timeLeft.seconds}
                   </div>
-                  <span className="text-sm text-gray-500 mt-2">Seconds</span>
+                  <span className="text-xs text-gray-500 mt-1">Seconds</span>
                 </div>
               </div>
               
-<<<<<<< HEAD
-              {message && (
-                <div className="bg-gray-50 px-8 py-6 rounded-lg border border-gray-100 mt-8 flex flex-col items-center">
-                  <p className="text-base text-gray-700 text-center w-full">{message}</p>
-                </div>
-              )}
-
-              {gifUrl && (
-                <div className="mt-6">
-                  <img 
-                    src={gifUrl} 
-                    alt="GIF" 
-                    className="mx-auto max-h-48 object-contain rounded"
-                  />
-                  <div className="mt-2 flex justify-end">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 px-2 py-0 text-xs"
-                      onClick={() => window.open("https://giphy.com/", "_blank")}
-                    >
-=======
               {message && <div className="bg-gray-50 px-6 py-4 rounded-lg border border-gray-100">
                   <p className="text-gray-700 text-sm">{message}</p>
                 </div>}
@@ -206,7 +144,6 @@ const Countdown: React.FC<CountdownProps> = ({
                   <img src={gifUrl} alt="GIF" className="mx-auto max-h-40 object-contain rounded" />
                   <div className="mt-1 flex justify-end">
                     <Button variant="ghost" size="sm" className="h-6 px-2 py-0 text-xs" onClick={() => window.open("https://giphy.com/", "_blank")}>
->>>>>>> 16d4f263e363536b0ae76b0b846d6ec474d607c3
                       <span>Via Giphy</span>
                       <ExternalLink className="ml-1 h-3 w-3" />
                     </Button>
