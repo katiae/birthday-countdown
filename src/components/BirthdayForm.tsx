@@ -23,7 +23,7 @@ const BirthdayForm: React.FC = () => {
   const [name, setName] = useState("");
   // Initialize with current month (1-indexed to match our dropdown values)
   const [month, setMonth] = useState<number | "">(new Date().getMonth() + 1);
-  const [day, setDay] = useState<number | "">("");
+  const [day, setDay] = useState<number | "">(1);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const daysInSelectedMonth = month !== "" ? getDaysInMonth(month) : 31;
