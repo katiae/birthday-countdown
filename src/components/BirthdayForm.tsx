@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useBirthday } from "@/contexts/BirthdayContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,7 +16,7 @@ const getDaysInMonth = (month: number) => {
 };
 
 const TEXT_COLORS = [
-  { name: "Default", value: "", preview: "#000000" },
+  { name: "Default", value: "default", preview: "#000000" },
   { name: "Vibrant Purple", value: "text-purple-600", preview: "#9b87f5" },
   { name: "Ocean Blue", value: "text-blue-500", preview: "#0EA5E9" },
   { name: "Birthday Pink", value: "text-pink-500", preview: "#D946EF" },
@@ -38,7 +37,7 @@ const BirthdayForm: React.FC = () => {
   const [day, setDay] = useState<number | "">(new Date().getDate());
   const [message, setMessage] = useState("");
   const [birthdayMessage, setBirthdayMessage] = useState("");
-  const [textColor, setTextColor] = useState("");
+  const [textColor, setTextColor] = useState("default");
   const [error, setError] = useState("");
   
   const [gifUrl, setGifUrl] = useState<string>("");
@@ -470,7 +469,7 @@ const BirthdayForm: React.FC = () => {
               
               {birthdayMessage && (
                 <div className="mt-2 p-3 bg-gray-50 border border-gray-100 rounded-lg">
-                  <p className={`text-center ${textColor || ''}`}>
+                  <p className={`text-center ${textColor !== "default" ? textColor : ''}`}>
                     Preview: {birthdayMessage}
                   </p>
                 </div>
