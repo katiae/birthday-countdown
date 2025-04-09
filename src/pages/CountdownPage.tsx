@@ -51,6 +51,7 @@ const CountdownPage: React.FC = () => {
         month={birthday.month}
         day={birthday.day}
         message={birthday.message}
+        birthdayMessage={birthday.birthdayMessage}
       />
       
       <div className="mt-8 flex gap-4">

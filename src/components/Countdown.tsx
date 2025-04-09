@@ -7,13 +7,15 @@ interface CountdownProps {
   month: number;
   day: number;
   message?: string;
+  birthdayMessage?: string;
 }
 
 const Countdown: React.FC<CountdownProps> = ({
   name,
   month,
   day,
-  message
+  message,
+  birthdayMessage
 }) => {
   const [timeLeft, setTimeLeft] = useState<{
     days: number;
@@ -97,6 +99,14 @@ const Countdown: React.FC<CountdownProps> = ({
               Happy Birthday, {name}!
             </h1>
             <p className="text-lg text-birthday-accent">Today is the celebration day</p>
+            
+            {birthdayMessage && (
+              <div className="my-6 px-8 py-6 bg-gray-50 rounded-md border border-gray-100">
+                <p className="text-birthday-accent text-base">
+                  {birthdayMessage}
+                </p>
+              </div>
+            )}
           </>
         ) : (
           <>
@@ -136,7 +146,7 @@ const Countdown: React.FC<CountdownProps> = ({
           </>
         )}
         
-        {message && (
+        {message && !isToday && (
           <div className="my-6 px-8 py-5 bg-gray-50 rounded-md border border-gray-100">
             <p className="text-birthday text-base">
               {message}
