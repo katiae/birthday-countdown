@@ -12,7 +12,6 @@ import { ChevronLeft, ChevronRight, Search, Image, ExternalLink } from "lucide-r
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const getDaysInMonth = (month: number) => {
-  // Month is 1-indexed in Date
   return new Date(new Date().getFullYear(), month, 0).getDate();
 };
 
@@ -23,15 +22,12 @@ const BirthdayForm: React.FC = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
-  // Initialize with current month (1-indexed to match our dropdown values)
   const [month, setMonth] = useState<number | "">(new Date().getMonth() + 1);
-  // Initialize with current day
   const [day, setDay] = useState<number | "">(new Date().getDate());
   const [message, setMessage] = useState("");
   const [birthdayMessage, setBirthdayMessage] = useState("");
   const [error, setError] = useState("");
   
-  // Giphy search states for countdown message
   const [gifUrl, setGifUrl] = useState<string>("");
   const [gifSearch, setGifSearch] = useState("");
   const [gifs, setGifs] = useState<any[]>([]);
@@ -39,7 +35,6 @@ const BirthdayForm: React.FC = () => {
   const [showGifSelector, setShowGifSelector] = useState(false);
   const [gifSource, setGifSource] = useState<string>("");
   
-  // Giphy search states for birthday message
   const [birthdayGifUrl, setBirthdayGifUrl] = useState<string>("");
   const [birthdayGifSearch, setBirthdayGifSearch] = useState("");
   const [birthdayGifs, setBirthdayGifs] = useState<any[]>([]);
@@ -47,10 +42,8 @@ const BirthdayForm: React.FC = () => {
   const [showBirthdayGifSelector, setShowBirthdayGifSelector] = useState(false);
   const [birthdayGifSource, setBirthdayGifSource] = useState<string>("");
   
-  // Updated to a working public API key for Giphy
   const GIPHY_API_KEY = "GlVGYHkr3WSBnllca54iNt0yFbjz7L65";
   
-  // Search for GIFs when the user types in the search box (countdown message)
   const searchGifs = async () => {
     if (!gifSearch.trim()) {
       toast.error("Please enter a search term");
@@ -90,7 +83,6 @@ const BirthdayForm: React.FC = () => {
     }
   };
 
-  // Search for birthday message GIFs
   const searchBirthdayGifs = async () => {
     if (!birthdayGifSearch.trim()) {
       toast.error("Please enter a search term");
@@ -129,94 +121,6 @@ const BirthdayForm: React.FC = () => {
       setIsBirthdayGifSearching(false);
     }
   };
-  
-  // When the user presses Enter in the search input, trigger search
-  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      searchGifs();
-    }
-  };
-
-  // When the user presses Enter in the birthday search input, trigger search
-  const handleBirthdaySearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      searchBirthdayGifs();
-    }
-  };
-
-  // Load trending GIFs when selector is opened
-  useEffect(() => {
-    if (showGifSelector && gifs.length === 0) {
-      fetchTrendingGifs();
-    }
-  }, [showGifSelector]);
-
-  // Load trending GIFs for birthday message when selector is opened
-  useEffect(() => {
-    if (showBirthdayGifSelector && birthdayGifs.length === 0) {
-      fetchTrendingBirthdayGifs();
-    }
-  }, [showBirthdayGifSelector]);
-
-  // Fetch trending GIFs from Giphy
-  const fetchTrendingGifs = async () => {
-    setIsSearching(true);
-    setGifs([]);
-    
-    try {
-      const response = await fetch(
-        `https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_API_KEY}&limit=20&rating=g`
-      );
-      
-      if (!response.ok) {
-        throw new Error(`Giphy API responded with status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      
-      if (data.data && Array.isArray(data.data)) {
-        setGifs(data.data);
-      } else {
-        throw new Error("Unexpected response format from Giphy API");
-      }
-    } catch (error) {
-      console.error("Error fetching trending GIFs:", error);
-      toast.error("Failed to load trending GIFs.");
-    } finally {
-      setIsSearching(false);
-    }
-  };
-
-  // Fetch trending GIFs for birthday message
-  const fetchTrendingBirthdayGifs = async () => {
-    setIsBirthdayGifSearching(true);
-    setBirthdayGifs([]);
-    
-    try {
-      const response = await fetch(
-        `https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_API_KEY}&limit=20&rating=g`
-      );
-      
-      if (!response.ok) {
-        throw new Error(`Giphy API responded with status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      
-      if (data.data && Array.isArray(data.data)) {
-        setBirthdayGifs(data.data);
-      } else {
-        throw new Error("Unexpected response format from Giphy API");
-      }
-    } catch (error) {
-      console.error("Error fetching trending GIFs:", error);
-      toast.error("Failed to load trending GIFs.");
-    } finally {
-      setIsBirthdayGifSearching(false);
-    }
-  };
 
   const handleNextStep = () => {
     setError("");
@@ -244,7 +148,6 @@ const BirthdayForm: React.FC = () => {
     e.preventDefault();
     setError("");
     
-    // Add the birthday and navigate to the countdown page
     const birthdayId = addBirthday(
       name, 
       month as number, 
@@ -299,7 +202,7 @@ const BirthdayForm: React.FC = () => {
         <CardDescription className="text-zinc-800 text-[16px]">
           {step === 1 
             ? "Add a birthday to create a personalized countdown page" 
-            : "Add a special message that will appear on the birthday"}
+            : "Add a special message that will appear on the birthday day"}
         </CardDescription>
       </CardHeader>
       <CardContent className="px-8">
