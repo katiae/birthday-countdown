@@ -43,11 +43,19 @@ export const getLocalStorageBirthdays = (): Birthday[] => {
 
 export const BirthdayProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Initialize with data from localStorage
-  const [birthdays, setBirthdays] = useState<Birthday[]>(getLocalStorageBirthdays());
+  const [birthdays, setBirthdays] = useState<Birthday[]>([]);
+  
+  // Load data from localStorage on mount
+  useEffect(() => {
+    const storedBirthdays = getLocalStorageBirthdays();
+    setBirthdays(storedBirthdays);
+  }, []);
 
   // Save to localStorage whenever birthdays change
   useEffect(() => {
-    localStorage.setItem("birthdays", JSON.stringify(birthdays));
+    if (birthdays.length > 0) {
+      localStorage.setItem("birthdays", JSON.stringify(birthdays));
+    }
   }, [birthdays]);
 
   const addBirthday = (name: string, month: number, day: number, message?: string, birthdayMessage?: string, gifUrl?: string, birthdayGifUrl?: string): string => {
@@ -78,18 +86,17 @@ export const BirthdayProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const getBirthdayById = (id: string): Birthday | undefined => {
-    // First check in the current state
-    const stateResult = birthdays.find(birthday => birthday.id === id);
-    if (stateResult) return stateResult;
-    
-    // If not found in state, check directly in localStorage as a fallback
+    // Always check directly in localStorage first for the most up-to-date data
     try {
       const localBirthdays = getLocalStorageBirthdays();
-      return localBirthdays.find(birthday => birthday.id === id);
+      const fromStorage = localBirthdays.find(birthday => birthday.id === id);
+      if (fromStorage) return fromStorage;
     } catch (error) {
       console.error("Error fetching birthday from localStorage:", error);
-      return undefined;
     }
+    
+    // Fallback to state if not found in localStorage
+    return birthdays.find(birthday => birthday.id === id);
   };
 
   const getLocalBirthdays = (): Birthday[] => {

@@ -12,6 +12,7 @@ const CountdownPage: React.FC = () => {
   const { getBirthdayById } = useBirthday();
   const [birthday, setBirthday] = useState<Birthday | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
+  const [retryCount, setRetryCount] = useState(0);
   
   useEffect(() => {
     if (!id) {
@@ -21,9 +22,9 @@ const CountdownPage: React.FC = () => {
     
     // Function to find birthday data
     const findBirthday = () => {
-      console.log("Looking for birthday with ID:", id);
+      console.log(`Looking for birthday with ID: ${id} (Attempt ${retryCount + 1})`);
       
-      // Try to get directly from localStorage first
+      // First check directly in localStorage for the most reliable data
       try {
         const localBirthdays = getLocalStorageBirthdays();
         console.log("Birthdays in localStorage:", localBirthdays);
@@ -33,32 +34,37 @@ const CountdownPage: React.FC = () => {
           console.log("Found in localStorage:", foundBirthday);
           setBirthday(foundBirthday);
           setIsLoading(false);
-          return;
+          return true;
         }
       } catch (error) {
         console.error("Error checking localStorage:", error);
       }
       
-      // If not found in localStorage, try from context
+      // Then try context
       const contextBirthday = getBirthdayById(id);
       if (contextBirthday) {
         console.log("Found in context:", contextBirthday);
         setBirthday(contextBirthday);
         setIsLoading(false);
-        return;
+        return true;
       }
       
-      console.log("Birthday not found");
-      setIsLoading(false);
+      console.log("Birthday not found in attempt", retryCount + 1);
+      return false;
     };
     
-    // Run immediately and then after a small delay to ensure localStorage is available
-    findBirthday();
-    
-    // Also try again after a small delay to ensure localStorage is ready
-    const timer = setTimeout(findBirthday, 500);
-    return () => clearTimeout(timer);
-  }, [id, getBirthdayById]);
+    if (!findBirthday() && retryCount < 5) {
+      // If not found and under retry limit, schedule another attempt
+      const timer = setTimeout(() => {
+        setRetryCount(prev => prev + 1);
+      }, 500); // Increasing delay between retries
+      
+      return () => clearTimeout(timer);
+    } else if (retryCount >= 5) {
+      // Give up after 5 attempts
+      setIsLoading(false);
+    }
+  }, [id, getBirthdayById, retryCount]);
   
   const handleShare = async () => {
     try {
