@@ -64,7 +64,7 @@ const CountdownPage: React.FC = () => {
           className="flex items-center gap-2 bg-birthday hover:bg-birthday/90 text-white"
         >
           <Share className="h-4 w-4" />
-          Share
+          Share Countdown
         </Button>
       </div>
     </div>
