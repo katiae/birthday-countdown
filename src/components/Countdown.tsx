@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Share } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -90,7 +91,7 @@ const Countdown: React.FC<CountdownProps> = ({
   return <div className="w-full max-w-md overflow-hidden bg-white border border-gray-200 rounded-3xl">
       {isToday && <ConfettiExplosion />}
       
-      <div className="p-6 text-center space-y-6 rounded-full">
+      <div className="p-8 text-center space-y-6 rounded-full">
         {isToday ? <>
             <h1 className="text-3xl font-bold text-birthday-accent">
               Happy Birthday, {name}!

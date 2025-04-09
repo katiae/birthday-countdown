@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useBirthday } from "@/contexts/BirthdayContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Calendar } from "lucide-react";
+
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const getDaysInMonth = (month: number) => {
   // Month is 1-indexed in Date
@@ -48,8 +49,7 @@ const BirthdayForm: React.FC = () => {
   };
   return <Card className="w-full max-w-md border border-gray-200 rounded-3xl">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-birthday flex items-center gap-2">
-          <Calendar className="h-5 w-5" />
+        <CardTitle className="text-2xl font-bold text-birthday">
           Create Countdown
         </CardTitle>
         <CardDescription>
