@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useBirthday } from "@/contexts/BirthdayContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -432,31 +433,41 @@ const BirthdayForm: React.FC = () => {
               </p>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Label htmlFor="textColor" className="flex items-center gap-2">
                 <Palette className="h-4 w-4" />
                 Text Color
               </Label>
-              <div className="grid grid-cols-4 gap-2">
-                {TEXT_COLORS.map((color) => (
+              <Select 
+                value={textColor} 
+                onValueChange={setTextColor}
+              >
+                <SelectTrigger id="textColor" className="flex items-center gap-2 border-gray-300 focus:border-gray-400">
                   <div
-                    key={color.value}
-                    onClick={() => setTextColor(color.value)}
-                    className={`
-                      flex flex-col items-center p-2 border rounded-lg cursor-pointer transition-all
-                      ${textColor === color.value ? 'border-birthday ring-1 ring-birthday' : 'border-gray-200 hover:border-gray-300'}
-                    `}
-                  >
-                    <div 
-                      className="w-6 h-6 rounded-full mb-1" 
-                      style={{ backgroundColor: color.preview }}
-                    />
-                    <span className="text-xs text-center truncate w-full">
-                      {color.name}
-                    </span>
-                  </div>
-                ))}
-              </div>
+                    className="w-4 h-4 rounded-full"
+                    style={{ 
+                      backgroundColor: TEXT_COLORS.find(color => color.value === textColor)?.preview || TEXT_COLORS[0].preview 
+                    }}
+                  />
+                  <SelectValue placeholder="Select color">
+                    {TEXT_COLORS.find(color => color.value === textColor)?.name || "Default"}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {TEXT_COLORS.map((color) => (
+                    <SelectItem key={color.value} value={color.value} className="flex items-center gap-2">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="w-4 h-4 rounded-full"
+                          style={{ backgroundColor: color.preview }}
+                        />
+                        <span>{color.name}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              
               {birthdayMessage && (
                 <div className="mt-2 p-3 bg-gray-50 border border-gray-100 rounded-lg">
                   <p className={`text-center ${textColor || ''}`}>
