@@ -11,24 +11,53 @@ const CountdownPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { getBirthdayById } = useBirthday();
   const [birthday, setBirthday] = useState<Birthday | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      setIsLoading(false);
+      return;
+    }
     
-    // Try to find the birthday directly from localStorage first to ensure we have the latest data
-    const localBirthdays = getLocalStorageBirthdays();
-    const foundBirthday = localBirthdays.find(b => b.id === id);
-    
-    // If found in localStorage, use it
-    if (foundBirthday) {
-      setBirthday(foundBirthday);
-    } else {
-      // As a fallback, try context
+    // Function to find birthday data
+    const findBirthday = () => {
+      console.log("Looking for birthday with ID:", id);
+      
+      // Try to get directly from localStorage first
+      try {
+        const localBirthdays = getLocalStorageBirthdays();
+        console.log("Birthdays in localStorage:", localBirthdays);
+        
+        const foundBirthday = localBirthdays.find(b => b.id === id);
+        if (foundBirthday) {
+          console.log("Found in localStorage:", foundBirthday);
+          setBirthday(foundBirthday);
+          setIsLoading(false);
+          return;
+        }
+      } catch (error) {
+        console.error("Error checking localStorage:", error);
+      }
+      
+      // If not found in localStorage, try from context
       const contextBirthday = getBirthdayById(id);
       if (contextBirthday) {
+        console.log("Found in context:", contextBirthday);
         setBirthday(contextBirthday);
+        setIsLoading(false);
+        return;
       }
-    }
+      
+      console.log("Birthday not found");
+      setIsLoading(false);
+    };
+    
+    // Run immediately and then after a small delay to ensure localStorage is available
+    findBirthday();
+    
+    // Also try again after a small delay to ensure localStorage is ready
+    const timer = setTimeout(findBirthday, 500);
+    return () => clearTimeout(timer);
   }, [id, getBirthdayById]);
   
   const handleShare = async () => {
@@ -40,6 +69,16 @@ const CountdownPage: React.FC = () => {
       toast.error("Failed to copy link to clipboard");
     }
   };
+  
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <div className="text-center">
+          <p>Loading countdown...</p>
+        </div>
+      </div>
+    );
+  }
   
   if (!birthday) {
     return (
