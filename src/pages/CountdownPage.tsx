@@ -12,7 +12,6 @@ const CountdownPage: React.FC = () => {
   const { getBirthdayById } = useBirthday();
   const [birthday, setBirthday] = useState<Birthday | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
-  const [retryCount, setRetryCount] = useState(0);
   
   useEffect(() => {
     if (!id) {
@@ -20,51 +19,31 @@ const CountdownPage: React.FC = () => {
       return;
     }
     
-    // Function to find birthday data
-    const findBirthday = () => {
-      console.log(`Looking for birthday with ID: ${id} (Attempt ${retryCount + 1})`);
-      
-      // First check directly in localStorage for the most reliable data
-      try {
-        const localBirthdays = getLocalStorageBirthdays();
-        console.log("Birthdays in localStorage:", localBirthdays);
-        
-        const foundBirthday = localBirthdays.find(b => b.id === id);
-        if (foundBirthday) {
-          console.log("Found in localStorage:", foundBirthday);
-          setBirthday(foundBirthday);
-          setIsLoading(false);
-          return true;
-        }
-      } catch (error) {
-        console.error("Error checking localStorage:", error);
-      }
-      
-      // Then try context
-      const contextBirthday = getBirthdayById(id);
-      if (contextBirthday) {
-        console.log("Found in context:", contextBirthday);
-        setBirthday(contextBirthday);
-        setIsLoading(false);
-        return true;
-      }
-      
-      console.log("Birthday not found in attempt", retryCount + 1);
-      return false;
-    };
+    console.log(`Looking for birthday with ID: ${id}`);
     
-    if (!findBirthday() && retryCount < 5) {
-      // If not found and under retry limit, schedule another attempt
-      const timer = setTimeout(() => {
-        setRetryCount(prev => prev + 1);
-      }, 500); // Increasing delay between retries
-      
-      return () => clearTimeout(timer);
-    } else if (retryCount >= 5) {
-      // Give up after 5 attempts
+    // Immediately try to find from localStorage first (most reliable source)
+    const localBirthdays = getLocalStorageBirthdays();
+    console.log("All birthdays in localStorage:", localBirthdays);
+    
+    const foundBirthday = localBirthdays.find(b => b.id === id);
+    
+    if (foundBirthday) {
+      console.log("Found birthday directly in localStorage:", foundBirthday);
+      setBirthday(foundBirthday);
       setIsLoading(false);
+      return;
     }
-  }, [id, getBirthdayById, retryCount]);
+    
+    // If not found in localStorage, try from context
+    const contextBirthday = getBirthdayById(id);
+    if (contextBirthday) {
+      console.log("Found birthday from context:", contextBirthday);
+      setBirthday(contextBirthday);
+    }
+    
+    // Always finish loading
+    setIsLoading(false);
+  }, [id, getBirthdayById]);
   
   const handleShare = async () => {
     try {
