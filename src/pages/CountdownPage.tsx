@@ -35,6 +35,19 @@ const CountdownPage: React.FC = () => {
     setIsLoading(false);
   }, [id, getBirthdayById]);
 
+  useEffect(() => {
+    if (birthday) {
+      const now = new Date();
+      const todayIsBirthday = 
+        now.getDate() === birthday.day && 
+        now.getMonth() === birthday.month - 1;
+      
+      document.title = todayIsBirthday ? "Today is your day" : "The countdown begins";
+    } else {
+      document.title = "Birthday Countdown";
+    }
+  }, [birthday]);
+
   const handleShare = async () => {
     try {
       if (!birthday) throw new Error("No birthday to share");
