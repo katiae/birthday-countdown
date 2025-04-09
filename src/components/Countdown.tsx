@@ -138,7 +138,9 @@ const Countdown: React.FC<CountdownProps> = ({
         
         {message && (
           <div className="my-6 px-8 py-5 bg-gray-50 rounded-md border border-gray-100">
-            <p className="text-birthday">{message}</p>
+            <p className="text-birthday text-base">
+              {message}
+            </p>
           </div>
         )}
       </div>
