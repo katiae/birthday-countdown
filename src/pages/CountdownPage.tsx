@@ -42,7 +42,7 @@ const CountdownPage: React.FC = () => {
       <div className="w-full max-w-md text-center mb-8">
         <Link to="/" className="inline-flex items-center gap-2 text-birthday hover:text-birthday/80 transition-colors">
           <Cake className="h-6 w-6" />
-          <span className="text-2xl font-bold">The Countdown Begins</span>
+          <span className="text-2xl font-bold">Birthday Countdown</span>
         </Link>
       </div>
       
