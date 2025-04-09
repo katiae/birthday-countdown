@@ -8,12 +8,23 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Search, Image, ExternalLink } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, Image, ExternalLink, Palette } from "lucide-react";
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const getDaysInMonth = (month: number) => {
   return new Date(new Date().getFullYear(), month, 0).getDate();
 };
+
+const TEXT_COLORS = [
+  { name: "Default", value: "", preview: "#000000" },
+  { name: "Vibrant Purple", value: "text-purple-600", preview: "#9b87f5" },
+  { name: "Ocean Blue", value: "text-blue-500", preview: "#0EA5E9" },
+  { name: "Birthday Pink", value: "text-pink-500", preview: "#D946EF" },
+  { name: "Sunset Orange", value: "text-orange-500", preview: "#F97316" },
+  { name: "Forest Green", value: "text-green-600", preview: "#16A34A" },
+  { name: "Ruby Red", value: "text-red-600", preview: "#DC2626" },
+  { name: "Golden Yellow", value: "text-amber-500", preview: "#F59E0B" },
+];
 
 const BirthdayForm: React.FC = () => {
   const {
@@ -26,6 +37,7 @@ const BirthdayForm: React.FC = () => {
   const [day, setDay] = useState<number | "">(new Date().getDate());
   const [message, setMessage] = useState("");
   const [birthdayMessage, setBirthdayMessage] = useState("");
+  const [textColor, setTextColor] = useState("");
   const [error, setError] = useState("");
   
   const [gifUrl, setGifUrl] = useState<string>("");
@@ -169,7 +181,8 @@ const BirthdayForm: React.FC = () => {
       message, 
       birthdayMessage, 
       gifUrl,
-      birthdayGifUrl
+      birthdayGifUrl,
+      textColor
     );
     toast.success("Birthday countdown created!");
     navigate(`/countdown/${birthdayId}`);
@@ -417,6 +430,40 @@ const BirthdayForm: React.FC = () => {
               <p className="text-sm text-muted-foreground mt-2">
                 This message will only be displayed when it's the actual birthday.
               </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="textColor" className="flex items-center gap-2">
+                <Palette className="h-4 w-4" />
+                Text Color
+              </Label>
+              <div className="grid grid-cols-4 gap-2">
+                {TEXT_COLORS.map((color) => (
+                  <div
+                    key={color.value}
+                    onClick={() => setTextColor(color.value)}
+                    className={`
+                      flex flex-col items-center p-2 border rounded-lg cursor-pointer transition-all
+                      ${textColor === color.value ? 'border-birthday ring-1 ring-birthday' : 'border-gray-200 hover:border-gray-300'}
+                    `}
+                  >
+                    <div 
+                      className="w-6 h-6 rounded-full mb-1" 
+                      style={{ backgroundColor: color.preview }}
+                    />
+                    <span className="text-xs text-center truncate w-full">
+                      {color.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              {birthdayMessage && (
+                <div className="mt-2 p-3 bg-gray-50 border border-gray-100 rounded-lg">
+                  <p className={`text-center ${textColor || ''}`}>
+                    Preview: {birthdayMessage}
+                  </p>
+                </div>
+              )}
             </div>
 
             <div className="space-y-2">
