@@ -1,7 +1,7 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useBirthday } from "@/contexts/BirthdayContext";
+import { useBirthday, getLocalStorageBirthdays, Birthday } from "@/contexts/BirthdayContext";
 import Countdown from "@/components/Countdown";
 import { Button } from "@/components/ui/button";
 import { Cake, Share } from "lucide-react";
@@ -10,13 +10,31 @@ import { toast } from "sonner";
 const CountdownPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { getBirthdayById } = useBirthday();
+  const [birthday, setBirthday] = useState<Birthday | undefined>(undefined);
   
-  const birthday = id ? getBirthdayById(id) : undefined;
+  useEffect(() => {
+    if (!id) return;
+    
+    // First try to get birthday from context
+    let foundBirthday = getBirthdayById(id);
+    
+    // If not found in context, try to get directly from localStorage
+    if (!foundBirthday) {
+      const localBirthdays = getLocalStorageBirthdays();
+      foundBirthday = localBirthdays.find(b => b.id === id);
+    }
+    
+    setBirthday(foundBirthday);
+  }, [id, getBirthdayById]);
   
   const handleShare = async () => {
-    // Get the current URL and copy it to clipboard
-    await navigator.clipboard.writeText(window.location.href);
-    toast.success("Link copied to clipboard!");
+    try {
+      // Get the current URL and copy it to clipboard
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success("Link copied to clipboard!");
+    } catch (error) {
+      toast.error("Failed to copy link to clipboard");
+    }
   };
   
   if (!birthday) {
@@ -53,6 +71,7 @@ const CountdownPage: React.FC = () => {
         message={birthday.message}
         birthdayMessage={birthday.birthdayMessage}
         gifUrl={birthday.gifUrl}
+        birthdayGifUrl={birthday.birthdayGifUrl}
       />
       
       <div className="mt-8 flex gap-4">
