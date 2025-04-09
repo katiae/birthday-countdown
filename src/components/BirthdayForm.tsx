@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useBirthday } from "@/contexts/BirthdayContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,21 +38,41 @@ const BirthdayForm: React.FC = () => {
   const [showGifSelector, setShowGifSelector] = useState(false);
   const [gifSource, setGifSource] = useState<string>("");
   
-  const GIPHY_API_KEY = "HSywBBfgSLZraR9nrthjwbdMc2bLW9Ti"; // Public API key for Giphy
+  // Updated to a working public API key for Giphy
+  const GIPHY_API_KEY = "GlVGYHkr3WSBnllca54iNt0yFbjz7L65";
   
   // Search for GIFs when the user types in the search box
   const searchGifs = async () => {
-    if (!gifSearch.trim()) return;
+    if (!gifSearch.trim()) {
+      toast.error("Please enter a search term");
+      return;
+    }
     
     setIsSearching(true);
+    setGifs([]);
+    
     try {
       const response = await fetch(
         `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${encodeURIComponent(
           gifSearch
         )}&limit=20&offset=0&rating=g&lang=en`
       );
+      
+      if (!response.ok) {
+        throw new Error(`Giphy API responded with status: ${response.status}`);
+      }
+      
       const data = await response.json();
-      setGifs(data.data);
+      
+      if (data.data && Array.isArray(data.data)) {
+        setGifs(data.data);
+        
+        if (data.data.length === 0) {
+          toast.info("No GIFs found for your search");
+        }
+      } else {
+        throw new Error("Unexpected response format from Giphy API");
+      }
     } catch (error) {
       console.error("Error fetching GIFs:", error);
       toast.error("Failed to fetch GIFs. Please try again.");
@@ -80,12 +99,24 @@ const BirthdayForm: React.FC = () => {
   // Fetch trending GIFs from Giphy
   const fetchTrendingGifs = async () => {
     setIsSearching(true);
+    setGifs([]);
+    
     try {
       const response = await fetch(
         `https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_API_KEY}&limit=20&rating=g`
       );
+      
+      if (!response.ok) {
+        throw new Error(`Giphy API responded with status: ${response.status}`);
+      }
+      
       const data = await response.json();
-      setGifs(data.data);
+      
+      if (data.data && Array.isArray(data.data)) {
+        setGifs(data.data);
+      } else {
+        throw new Error("Unexpected response format from Giphy API");
+      }
     } catch (error) {
       console.error("Error fetching trending GIFs:", error);
       toast.error("Failed to load trending GIFs.");
@@ -304,33 +335,35 @@ const BirthdayForm: React.FC = () => {
                     </Button>
                   </div>
                   
-                  {isSearching ? (
-                    <div className="h-40 flex items-center justify-center">
-                      <p>Loading...</p>
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
-                      {gifs.map((gif) => (
-                        <img
-                          key={gif.id}
-                          src={gif.images.fixed_height_small.url}
-                          alt={gif.title}
-                          className="w-full h-20 object-cover cursor-pointer rounded border border-transparent hover:border-birthday"
-                          onClick={() => selectGif(gif.images.original.url, gif.url)}
-                        />
-                      ))}
-                      {gifs.length === 0 && gifSearch && (
-                        <p className="col-span-2 text-center text-gray-500 py-4">
-                          No GIFs found. Try a different search.
-                        </p>
-                      )}
-                      {gifs.length === 0 && !gifSearch && !isSearching && (
-                        <p className="col-span-2 text-center text-gray-500 py-4">
-                          Loading trending GIFs...
-                        </p>
-                      )}
-                    </div>
-                  )}
+                  <div className="h-40 overflow-y-auto border border-gray-200 rounded-lg p-2 bg-white">
+                    {isSearching ? (
+                      <div className="h-full flex items-center justify-center">
+                        <p className="text-gray-500">Loading...</p>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-2 gap-2">
+                        {gifs.map((gif) => (
+                          <img
+                            key={gif.id}
+                            src={gif.images.fixed_height_small.url}
+                            alt={gif.title}
+                            className="w-full h-20 object-cover cursor-pointer rounded border border-transparent hover:border-birthday"
+                            onClick={() => selectGif(gif.images.original.url, gif.url)}
+                          />
+                        ))}
+                        {gifs.length === 0 && gifSearch && !isSearching && (
+                          <p className="col-span-2 text-center text-gray-500 py-4">
+                            No GIFs found. Try a different search.
+                          </p>
+                        )}
+                        {gifs.length === 0 && !gifSearch && !isSearching && (
+                          <p className="col-span-2 text-center text-gray-500 py-4">
+                            Loading trending GIFs...
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
