@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useBirthday } from "@/contexts/BirthdayContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,7 +25,8 @@ const BirthdayForm: React.FC = () => {
   const [name, setName] = useState("");
   // Initialize with current month (1-indexed to match our dropdown values)
   const [month, setMonth] = useState<number | "">(new Date().getMonth() + 1);
-  const [day, setDay] = useState<number | "">(1);
+  // Initialize with current day
+  const [day, setDay] = useState<number | "">(new Date().getDate());
   const [message, setMessage] = useState("");
   const [birthdayMessage, setBirthdayMessage] = useState("");
   const [error, setError] = useState("");
