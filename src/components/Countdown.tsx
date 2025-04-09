@@ -106,7 +106,7 @@ const Countdown: React.FC<CountdownProps> = ({
                 </div>}
             </> : <>
               <h1 className="text-4xl font-bold text-zinc-800 whitespace-normal break-words">
-                <span className="block">{isBehind ? `${name}'s next birthday in` : `${name}'s birthday in`}</span>
+                <span className="block text-center">{isBehind ? `${name}'s next birthday in` : `${name}'s birthday in`}</span>
               </h1>
               
               <div className="flex justify-center gap-4 mt-6">
