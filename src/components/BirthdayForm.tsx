@@ -8,23 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Search, Image, ExternalLink, Palette } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, Image, ExternalLink } from "lucide-react";
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const getDaysInMonth = (month: number) => {
   return new Date(new Date().getFullYear(), month, 0).getDate();
 };
-
-const TEXT_COLORS = [
-  { name: "Default", value: "default", preview: "#000000" },
-  { name: "Vibrant Purple", value: "text-purple-600", preview: "#9b87f5" },
-  { name: "Ocean Blue", value: "text-blue-500", preview: "#0EA5E9" },
-  { name: "Birthday Pink", value: "text-pink-500", preview: "#D946EF" },
-  { name: "Sunset Orange", value: "text-orange-500", preview: "#F97316" },
-  { name: "Forest Green", value: "text-green-600", preview: "#16A34A" },
-  { name: "Ruby Red", value: "text-red-600", preview: "#DC2626" },
-  { name: "Golden Yellow", value: "text-amber-500", preview: "#F59E0B" },
-];
 
 const BirthdayForm: React.FC = () => {
   const {
@@ -37,7 +26,6 @@ const BirthdayForm: React.FC = () => {
   const [day, setDay] = useState<number | "">(new Date().getDate());
   const [message, setMessage] = useState("");
   const [birthdayMessage, setBirthdayMessage] = useState("");
-  const [textColor, setTextColor] = useState("default");
   const [error, setError] = useState("");
   
   const [gifUrl, setGifUrl] = useState<string>("");
@@ -181,8 +169,7 @@ const BirthdayForm: React.FC = () => {
       message, 
       birthdayMessage, 
       gifUrl,
-      birthdayGifUrl,
-      textColor
+      birthdayGifUrl
     );
     toast.success("Birthday countdown created!");
     navigate(`/countdown/${birthdayId}`);
@@ -430,50 +417,6 @@ const BirthdayForm: React.FC = () => {
               <p className="text-sm text-muted-foreground mt-2">
                 This message will only be displayed when it's the actual birthday.
               </p>
-            </div>
-
-            <div className="space-y-1">
-              <Label htmlFor="textColor" className="flex items-center gap-2">
-                <Palette className="h-4 w-4" />
-                Text Color
-              </Label>
-              <Select 
-                value={textColor} 
-                onValueChange={setTextColor}
-              >
-                <SelectTrigger id="textColor" className="flex items-center gap-2 border-gray-300 focus:border-gray-400">
-                  <div
-                    className="w-4 h-4 rounded-full"
-                    style={{ 
-                      backgroundColor: TEXT_COLORS.find(color => color.value === textColor)?.preview || TEXT_COLORS[0].preview 
-                    }}
-                  />
-                  <SelectValue placeholder="Select color">
-                    {TEXT_COLORS.find(color => color.value === textColor)?.name || "Default"}
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  {TEXT_COLORS.map((color) => (
-                    <SelectItem key={color.value} value={color.value} className="flex items-center gap-2">
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-4 h-4 rounded-full"
-                          style={{ backgroundColor: color.preview }}
-                        />
-                        <span>{color.name}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              
-              {birthdayMessage && (
-                <div className="mt-2 p-3 bg-gray-50 border border-gray-100 rounded-lg">
-                  <p className={`text-center ${textColor !== "default" ? textColor : ''}`}>
-                    Preview: {birthdayMessage}
-                  </p>
-                </div>
-              )}
             </div>
 
             <div className="space-y-2">

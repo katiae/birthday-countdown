@@ -128,7 +128,7 @@
   }
   
   .birthday-card {
-    @apply rounded-lg bg-white border border-gray-200 p-6 relative overflow-hidden;
+    @apply rounded-lg shadow-lg bg-white border border-gray-200 p-6 relative overflow-hidden;
   }
 
   .modern-button {
