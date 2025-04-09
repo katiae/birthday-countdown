@@ -81,12 +81,11 @@ const Countdown: React.FC<CountdownProps> = ({
   return <div className="relative w-full max-w-2xl px-4">
       {showConfetti && <ConfettiExplosion />}
       
-      <Card className="border-gray-200 rounded-3xl overflow-hidden">
+      <Card className="border-gray-200 rounded-3xl overflow-hidden max-w-2xl w-full">
         <CardContent className="p-8">
           {isToday ? <>
               <h1 className="text-4xl font-bold text-zinc-800 whitespace-normal break-words">
-                <span className="block">Happy Birthday,</span>
-                <span className="block">{name}!</span>
+                <span className="block">Happy Birthday, {name}!</span>
               </h1>
               
               {birthdayMessage && <div className="my-8 px-10 py-8 bg-gray-50 rounded-md border border-gray-100">
