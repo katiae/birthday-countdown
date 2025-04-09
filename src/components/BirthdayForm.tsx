@@ -30,8 +30,7 @@ const BirthdayForm: React.FC = () => {
   const [message, setMessage] = useState("");
   const [birthdayMessage, setBirthdayMessage] = useState("");
   const [error, setError] = useState("");
-  const daysInSelectedMonth = month !== "" ? getDaysInMonth(month) : 31;
-
+  
   // Giphy search states
   const [gifUrl, setGifUrl] = useState<string>("");
   const [gifSearch, setGifSearch] = useState("");
@@ -68,6 +67,30 @@ const BirthdayForm: React.FC = () => {
     if (e.key === "Enter") {
       e.preventDefault();
       searchGifs();
+    }
+  };
+
+  // Load trending GIFs when selector is opened
+  useEffect(() => {
+    if (showGifSelector && gifs.length === 0) {
+      fetchTrendingGifs();
+    }
+  }, [showGifSelector]);
+
+  // Fetch trending GIFs from Giphy
+  const fetchTrendingGifs = async () => {
+    setIsSearching(true);
+    try {
+      const response = await fetch(
+        `https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_API_KEY}&limit=20&rating=g`
+      );
+      const data = await response.json();
+      setGifs(data.data);
+    } catch (error) {
+      console.error("Error fetching trending GIFs:", error);
+      toast.error("Failed to load trending GIFs.");
+    } finally {
+      setIsSearching(false);
     }
   };
 
@@ -117,6 +140,8 @@ const BirthdayForm: React.FC = () => {
       window.open("https://giphy.com/", "_blank");
     }
   };
+
+  const daysInSelectedMonth = month !== "" ? getDaysInMonth(month) : 31;
 
   return (
     <Card className="w-full max-w-md border border-gray-200 rounded-3xl">
@@ -200,7 +225,7 @@ const BirthdayForm: React.FC = () => {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="gif">Add a GIF from Giphy (Optional)</Label>
+              <Label htmlFor="gif">Add a GIF (Optional)</Label>
               
               {gifUrl ? (
                 <div className="relative">
@@ -241,7 +266,7 @@ const BirthdayForm: React.FC = () => {
                   onClick={() => setShowGifSelector(!showGifSelector)}
                 >
                   <Image className="h-4 w-4" />
-                  Select a GIF from Giphy
+                  {showGifSelector ? "Hide GIF selector" : "Select a GIF"}
                 </Button>
               )}
               
@@ -299,9 +324,9 @@ const BirthdayForm: React.FC = () => {
                           No GIFs found. Try a different search.
                         </p>
                       )}
-                      {gifs.length === 0 && !gifSearch && (
+                      {gifs.length === 0 && !gifSearch && !isSearching && (
                         <p className="col-span-2 text-center text-gray-500 py-4">
-                          Search for a GIF to add to your birthday message.
+                          Loading trending GIFs...
                         </p>
                       )}
                     </div>
