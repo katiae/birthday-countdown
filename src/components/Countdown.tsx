@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -87,29 +86,47 @@ const Countdown: React.FC<CountdownProps> = ({
       
       <Card className="border-gray-200 rounded-3xl overflow-hidden">
         <CardContent className="p-8">
-          {isToday ? <>
-              <h1 className="text-3xl font-bold text-zinc-800">
-                Happy Birthday, {name}!
+          {isToday ? (
+            <>
+              <h1 className="text-4xl font-bold text-zinc-800 whitespace-normal break-words">
+                <span className="block">Happy Birthday,</span>
+                <span className="block">{name}!</span>
               </h1>
               
-              {birthdayMessage && <div className="my-6 px-8 py-6 bg-gray-50 rounded-md border border-gray-100">
-                  <p className={`text-base ${textColor || 'text-zinc-800'} text-left`}>
+              {birthdayMessage && (
+                <div className="my-8 px-10 py-8 bg-gray-50 rounded-md border border-gray-100">
+                  <p className="text-lg text-zinc-800">
                     {birthdayMessage}
                   </p>
                   
-                  {birthdayGifUrl && <div className="mt-3">
-                      <img src={birthdayGifUrl} alt="Birthday GIF" className="mx-auto max-h-40 object-contain rounded" />
+                  {birthdayGifUrl && (
+                    <div className="mt-4">
+                      <img 
+                        src={birthdayGifUrl} 
+                        alt="Birthday GIF" 
+                        className="mx-auto max-h-80 object-contain rounded"
+                      />
                       <div className="mt-2 flex justify-end">
-                        <Button variant="ghost" size="sm" className="h-6 px-2 py-0 text-xs" onClick={() => window.open("https://giphy.com/", "_blank")}>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 px-2 py-0 text-xs"
+                          onClick={() => window.open("https://giphy.com/", "_blank")}
+                        >
                           <span>Via Giphy</span>
                           <ExternalLink className="ml-1 h-3 w-3" />
                         </Button>
                       </div>
-                    </div>}
-                </div>}
-            </> : <>
-              <h1 className="text-3xl font-bold text-zinc-800">
-                {isBehind ? "Next Birthday in" : "Birthday in"}
+                    </div>
+                  )}
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <h1 className="text-4xl font-bold text-zinc-800 whitespace-normal break-words">
+                <span className="block">{isBehind ? "Next Birthday in" : "Birthday in"}</span>
+                <span className="block">{name}</span>
               </h1>
               
               <div className="flex justify-center gap-4 mt-6">
@@ -146,16 +163,28 @@ const Countdown: React.FC<CountdownProps> = ({
                   <p className={`text-gray-700 text-sm ${textColor || ''}`}>{message}</p>
                 </div>}
 
-              {gifUrl && <div className="mt-4">
-                  <img src={gifUrl} alt="GIF" className="mx-auto max-h-40 object-contain rounded" />
-                  <div className="mt-1 flex justify-end">
-                    <Button variant="ghost" size="sm" className="h-6 px-2 py-0 text-xs" onClick={() => window.open("https://giphy.com/", "_blank")}>
+              {gifUrl && (
+                <div className="mt-6">
+                  <img 
+                    src={gifUrl} 
+                    alt="GIF" 
+                    className="mx-auto max-h-80 object-contain rounded"
+                  />
+                  <div className="mt-2 flex justify-end">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 px-2 py-0 text-xs"
+                      onClick={() => window.open("https://giphy.com/", "_blank")}
+                    >
                       <span>Via Giphy</span>
                       <ExternalLink className="ml-1 h-3 w-3" />
                     </Button>
                   </div>
-                </div>}
-            </>}
+                </div>
+              )}
+            </>
+          )}
         </CardContent>
       </Card>
     </div>;
