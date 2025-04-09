@@ -3,7 +3,6 @@ import { ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import ConfettiExplosion from "@/components/ConfettiExplosion";
-
 interface CountdownProps {
   name: string;
   month: number;
@@ -15,14 +14,13 @@ interface CountdownProps {
   textColor?: string;
   isSharedPage?: boolean;
 }
-
-const Countdown: React.FC<CountdownProps> = ({ 
-  name, 
-  month, 
-  day, 
-  message, 
-  birthdayMessage, 
-  gifUrl, 
+const Countdown: React.FC<CountdownProps> = ({
+  name,
+  month,
+  day,
+  message,
+  birthdayMessage,
+  gifUrl,
   birthdayGifUrl,
   textColor,
   isSharedPage = false
@@ -31,21 +29,16 @@ const Countdown: React.FC<CountdownProps> = ({
     days: 0,
     hours: 0,
     minutes: 0,
-    seconds: 0,
+    seconds: 0
   });
   const [isToday, setIsToday] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [isBehind, setIsBehind] = useState(false);
-
   useEffect(() => {
     const checkBirthday = () => {
       const now = new Date();
-      const todayIsBirthday = 
-        now.getDate() === day && 
-        now.getMonth() === month - 1;
-      
+      const todayIsBirthday = now.getDate() === day && now.getMonth() === month - 1;
       setIsToday(todayIsBirthday);
-      
       if (todayIsBirthday) {
         setShowConfetti(true);
         const confettiTimer = setTimeout(() => {
@@ -57,39 +50,33 @@ const Countdown: React.FC<CountdownProps> = ({
 
     // Initial check
     checkBirthday();
-
     const calculateTimeLeft = () => {
       const now = new Date();
       const currentYear = now.getFullYear();
-      
       let birthdayThisYear = new Date(currentYear, month - 1, day);
-      
       if (now > birthdayThisYear) {
         birthdayThisYear = new Date(currentYear + 1, month - 1, day);
         setIsBehind(true);
       } else {
         setIsBehind(false);
       }
-      
       const difference = birthdayThisYear.getTime() - now.getTime();
-      
       setTimeLeft({
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
+        hours: Math.floor(difference / (1000 * 60 * 60) % 24),
+        minutes: Math.floor(difference / 1000 / 60 % 60),
+        seconds: Math.floor(difference / 1000 % 60)
       });
     };
-
     calculateTimeLeft();
     const timer = setInterval(calculateTimeLeft, 1000);
     return () => clearInterval(timer);
   }, [month, day]);
-
   const formatDate = () => {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return `${months[month - 1]} ${day}`;
   };
+<<<<<<< HEAD
 
   return (
     <div className="relative w-full max-w-2xl px-4">
@@ -116,17 +103,32 @@ const Countdown: React.FC<CountdownProps> = ({
                         alt="Birthday GIF" 
                         className="mx-auto max-h-48 object-contain rounded"
                       />
+=======
+  return <div className="relative w-full max-w-md px-4">
+      {showConfetti && <ConfettiExplosion />}
+      
+      <Card className="border-gray-200 rounded-3xl overflow-hidden">
+        <CardContent className="p-8">
+          {isToday ? <>
+              <h1 className="text-3xl font-bold text-zinc-800">
+                Happy Birthday, {name}!
+              </h1>
+              
+              {birthdayMessage && <div className="my-6 px-8 py-6 bg-gray-50 rounded-md border border-gray-100">
+                  <p className="text-base text-zinc-800 text-center">
+                    {birthdayMessage}
+                  </p>
+                  
+                  {birthdayGifUrl && <div className="mt-3">
+                      <img src={birthdayGifUrl} alt="Birthday GIF" className="mx-auto max-h-40 object-contain rounded" />
+>>>>>>> 16d4f263e363536b0ae76b0b846d6ec474d607c3
                       <div className="mt-2 flex justify-end">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-6 px-2 py-0 text-xs"
-                          onClick={() => window.open("https://giphy.com/", "_blank")}
-                        >
+                        <Button variant="ghost" size="sm" className="h-6 px-2 py-0 text-xs" onClick={() => window.open("https://giphy.com/", "_blank")}>
                           <span>Via Giphy</span>
                           <ExternalLink className="ml-1 h-3 w-3" />
                         </Button>
                       </div>
+<<<<<<< HEAD
                     </div>
                   )}
                 </div>
@@ -135,6 +137,12 @@ const Countdown: React.FC<CountdownProps> = ({
           ) : (
             <>
               <h1 className="text-4xl font-bold text-zinc-800">
+=======
+                    </div>}
+                </div>}
+            </> : <>
+              <h1 className="text-3xl font-bold text-zinc-800">
+>>>>>>> 16d4f263e363536b0ae76b0b846d6ec474d607c3
                 {isBehind ? "Next Birthday in" : "Birthday in"}
               </h1>
               
@@ -168,6 +176,7 @@ const Countdown: React.FC<CountdownProps> = ({
                 </div>
               </div>
               
+<<<<<<< HEAD
               {message && (
                 <div className="bg-gray-50 px-8 py-6 rounded-lg border border-gray-100 mt-8 flex flex-col items-center">
                   <p className="text-base text-gray-700 text-center w-full">{message}</p>
@@ -188,18 +197,24 @@ const Countdown: React.FC<CountdownProps> = ({
                       className="h-6 px-2 py-0 text-xs"
                       onClick={() => window.open("https://giphy.com/", "_blank")}
                     >
+=======
+              {message && <div className="bg-gray-50 px-6 py-4 rounded-lg border border-gray-100">
+                  <p className="text-gray-700 text-sm">{message}</p>
+                </div>}
+
+              {gifUrl && <div className="mt-4">
+                  <img src={gifUrl} alt="GIF" className="mx-auto max-h-40 object-contain rounded" />
+                  <div className="mt-1 flex justify-end">
+                    <Button variant="ghost" size="sm" className="h-6 px-2 py-0 text-xs" onClick={() => window.open("https://giphy.com/", "_blank")}>
+>>>>>>> 16d4f263e363536b0ae76b0b846d6ec474d607c3
                       <span>Via Giphy</span>
                       <ExternalLink className="ml-1 h-3 w-3" />
                     </Button>
                   </div>
-                </div>
-              )}
-            </>
-          )}
+                </div>}
+            </>}
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
-
 export default Countdown;
