@@ -90,7 +90,7 @@ const Countdown: React.FC<CountdownProps> = ({
     <div className="w-full max-w-lg overflow-hidden bg-white border border-gray-200 rounded-3xl">
       {isToday && <ConfettiExplosion />}
       
-      <div className="p-10 text-center space-y-6 rounded-full">
+      <div className="p-12 text-center space-y-6 rounded-full">
         {isToday ? (
           <>
             <h1 className="text-3xl font-bold text-birthday-accent">
