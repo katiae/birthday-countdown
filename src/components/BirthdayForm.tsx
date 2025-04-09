@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useBirthday } from "@/contexts/BirthdayContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,14 +9,11 @@ import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Calendar } from "lucide-react";
-
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
 const getDaysInMonth = (month: number) => {
   // Month is 1-indexed in Date
   return new Date(new Date().getFullYear(), month, 0).getDate();
 };
-
 const BirthdayForm: React.FC = () => {
   const {
     addBirthday
@@ -28,13 +24,10 @@ const BirthdayForm: React.FC = () => {
   const [day, setDay] = useState<number | "">("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  
   const daysInSelectedMonth = month !== "" ? getDaysInMonth(month) : 31;
-  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    
     if (!name.trim()) {
       setError("Please enter a name");
       return;
@@ -53,7 +46,6 @@ const BirthdayForm: React.FC = () => {
     toast.success("Birthday countdown created!");
     navigate(`/countdown/${birthdayId}`);
   };
-  
   return <Card className="w-full max-w-md border border-gray-200 rounded-3xl">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-birthday flex items-center gap-2">
@@ -112,11 +104,10 @@ const BirthdayForm: React.FC = () => {
         </form>
       </CardContent>
       <CardFooter>
-        <Button onClick={handleSubmit} className="w-full text-white bg-zinc-950 hover:bg-zinc-800 rounded-md">
+        <Button onClick={handleSubmit} className="w-full text-white bg-zinc-950 hover:bg-zinc-800 rounded-xl">
           Create Birthday Countdown
         </Button>
       </CardFooter>
     </Card>;
 };
-
 export default BirthdayForm;
