@@ -8,6 +8,7 @@ interface CountdownProps {
   day: number;
   message?: string;
   birthdayMessage?: string;
+  gifUrl?: string;
 }
 
 const Countdown: React.FC<CountdownProps> = ({
@@ -15,7 +16,8 @@ const Countdown: React.FC<CountdownProps> = ({
   month,
   day,
   message,
-  birthdayMessage
+  birthdayMessage,
+  gifUrl
 }) => {
   const [timeLeft, setTimeLeft] = useState<{
     days: number;
@@ -146,11 +148,23 @@ const Countdown: React.FC<CountdownProps> = ({
           </>
         )}
         
-        {message && !isToday && (
+        {(message || gifUrl) && !isToday && (
           <div className="my-6 px-8 py-5 bg-gray-50 rounded-md border border-gray-100">
-            <p className="text-birthday text-base">
-              {message}
-            </p>
+            {message && (
+              <p className="text-birthday text-base mb-3">
+                {message}
+              </p>
+            )}
+            
+            {gifUrl && (
+              <div className="mt-3">
+                <img 
+                  src={gifUrl} 
+                  alt="Birthday GIF" 
+                  className="mx-auto max-h-40 object-contain rounded"
+                />
+              </div>
+            )}
           </div>
         )}
       </div>

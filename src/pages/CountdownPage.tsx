@@ -52,6 +52,7 @@ const CountdownPage: React.FC = () => {
         day={birthday.day}
         message={birthday.message}
         birthdayMessage={birthday.birthdayMessage}
+        gifUrl={birthday.gifUrl}
       />
       
       <div className="mt-8 flex gap-4">
