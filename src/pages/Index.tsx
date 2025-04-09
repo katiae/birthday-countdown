@@ -17,10 +17,6 @@ const Index: React.FC = () => {
       </div>
       
       <BirthdayForm />
-      
-      <p className="text-sm text-muted-foreground mt-8">
-        Create a countdown and share the link for a birthday surprise.
-      </p>
     </div>
   );
 };
