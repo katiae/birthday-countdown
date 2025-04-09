@@ -88,7 +88,7 @@ const Countdown: React.FC<CountdownProps> = ({
       {showConfetti && <ConfettiExplosion />}
       
       <Card className="border-gray-200 rounded-3xl overflow-hidden">
-        <CardContent className="p-12">
+        <CardContent className="p-8">
           {isToday ? (
             <>
               <h1 className="text-4xl font-bold text-zinc-800 whitespace-normal break-words">
@@ -128,8 +128,7 @@ const Countdown: React.FC<CountdownProps> = ({
           ) : (
             <>
               <h1 className="text-4xl font-bold text-zinc-800 whitespace-normal break-words">
-                <span className="block">{isBehind ? "Next Birthday in" : "Birthday in"}</span>
-                <span className="block">{name}</span>
+                <span className="block">{isBehind ? `${name}'s next birthday in` : `${name}'s birthday in`}</span>
               </h1>
               
               <div className="flex justify-center gap-4 mt-6">
