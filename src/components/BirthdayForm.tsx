@@ -44,6 +44,20 @@ const BirthdayForm: React.FC = () => {
   
   const GIPHY_API_KEY = "GlVGYHkr3WSBnllca54iNt0yFbjz7L65";
   
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      searchGifs();
+    }
+  };
+
+  const handleBirthdaySearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      searchBirthdayGifs();
+    }
+  };
+  
   const searchGifs = async () => {
     if (!gifSearch.trim()) {
       toast.error("Please enter a search term");
