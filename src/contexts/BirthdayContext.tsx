@@ -47,6 +47,11 @@ export const BirthdayProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   });
 
   useEffect(() => {
+    // Ensure we have the latest data from localStorage
+    setBirthdays(getLocalStorageBirthdays());
+  }, []); // Run this once on component mount
+
+  useEffect(() => {
     localStorage.setItem("birthdays", JSON.stringify(birthdays));
   }, [birthdays]);
 

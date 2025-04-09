@@ -15,16 +15,20 @@ const CountdownPage: React.FC = () => {
   useEffect(() => {
     if (!id) return;
     
-    // First try to get birthday from context
-    let foundBirthday = getBirthdayById(id);
+    // Try to find the birthday directly from localStorage first to ensure we have the latest data
+    const localBirthdays = getLocalStorageBirthdays();
+    const foundBirthday = localBirthdays.find(b => b.id === id);
     
-    // If not found in context, try to get directly from localStorage
-    if (!foundBirthday) {
-      const localBirthdays = getLocalStorageBirthdays();
-      foundBirthday = localBirthdays.find(b => b.id === id);
+    // If found in localStorage, use it
+    if (foundBirthday) {
+      setBirthday(foundBirthday);
+    } else {
+      // As a fallback, try context
+      const contextBirthday = getBirthdayById(id);
+      if (contextBirthday) {
+        setBirthday(contextBirthday);
+      }
     }
-    
-    setBirthday(foundBirthday);
   }, [id, getBirthdayById]);
   
   const handleShare = async () => {
