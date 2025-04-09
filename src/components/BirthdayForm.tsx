@@ -21,7 +21,8 @@ const BirthdayForm: React.FC = () => {
   } = useBirthday();
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [month, setMonth] = useState<number | "">("");
+  // Initialize with current month (1-indexed to match our dropdown values)
+  const [month, setMonth] = useState<number | "">(new Date().getMonth() + 1);
   const [day, setDay] = useState<number | "">("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
