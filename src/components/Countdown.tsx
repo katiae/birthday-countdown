@@ -37,6 +37,10 @@ const Countdown: React.FC<CountdownProps> = ({
   const [isBehind, setIsBehind] = useState(false);
 
   useEffect(() => {
+    document.title = isToday ? "Today is your day" : "The countdown begins";
+  }, [isToday]);
+
+  useEffect(() => {
     const checkBirthday = () => {
       const now = new Date();
       const todayIsBirthday = now.getDate() === day && now.getMonth() === month - 1;
