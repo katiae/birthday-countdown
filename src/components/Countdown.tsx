@@ -11,6 +11,7 @@ interface CountdownProps {
   message?: string;
   birthdayMessage?: string;
   gifUrl?: string;
+  birthdayGifUrl?: string;
 }
 
 const Countdown: React.FC<CountdownProps> = ({
@@ -19,7 +20,8 @@ const Countdown: React.FC<CountdownProps> = ({
   day,
   message,
   birthdayMessage,
-  gifUrl
+  gifUrl,
+  birthdayGifUrl
 }) => {
   const [timeLeft, setTimeLeft] = useState<{
     days: number;
@@ -109,6 +111,27 @@ const Countdown: React.FC<CountdownProps> = ({
                 <p className="text-birthday-accent text-base">
                   {birthdayMessage}
                 </p>
+                
+                {birthdayGifUrl && (
+                  <div className="mt-3">
+                    <img 
+                      src={birthdayGifUrl} 
+                      alt="Birthday GIF" 
+                      className="mx-auto max-h-40 object-contain rounded"
+                    />
+                    <div className="mt-2 flex justify-end">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 px-2 py-0 text-xs"
+                        onClick={() => window.open("https://giphy.com/", "_blank")}
+                      >
+                        <span>Via Giphy</span>
+                        <ExternalLink className="ml-1 h-3 w-3" />
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </>

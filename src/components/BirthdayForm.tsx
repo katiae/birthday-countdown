@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useBirthday } from "@/contexts/BirthdayContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,7 +31,7 @@ const BirthdayForm: React.FC = () => {
   const [birthdayMessage, setBirthdayMessage] = useState("");
   const [error, setError] = useState("");
   
-  // Giphy search states
+  // Giphy search states for countdown message
   const [gifUrl, setGifUrl] = useState<string>("");
   const [gifSearch, setGifSearch] = useState("");
   const [gifs, setGifs] = useState<any[]>([]);
@@ -38,10 +39,18 @@ const BirthdayForm: React.FC = () => {
   const [showGifSelector, setShowGifSelector] = useState(false);
   const [gifSource, setGifSource] = useState<string>("");
   
+  // Giphy search states for birthday message
+  const [birthdayGifUrl, setBirthdayGifUrl] = useState<string>("");
+  const [birthdayGifSearch, setBirthdayGifSearch] = useState("");
+  const [birthdayGifs, setBirthdayGifs] = useState<any[]>([]);
+  const [isBirthdayGifSearching, setIsBirthdayGifSearching] = useState(false);
+  const [showBirthdayGifSelector, setShowBirthdayGifSelector] = useState(false);
+  const [birthdayGifSource, setBirthdayGifSource] = useState<string>("");
+  
   // Updated to a working public API key for Giphy
   const GIPHY_API_KEY = "GlVGYHkr3WSBnllca54iNt0yFbjz7L65";
   
-  // Search for GIFs when the user types in the search box
+  // Search for GIFs when the user types in the search box (countdown message)
   const searchGifs = async () => {
     if (!gifSearch.trim()) {
       toast.error("Please enter a search term");
@@ -80,6 +89,46 @@ const BirthdayForm: React.FC = () => {
       setIsSearching(false);
     }
   };
+
+  // Search for birthday message GIFs
+  const searchBirthdayGifs = async () => {
+    if (!birthdayGifSearch.trim()) {
+      toast.error("Please enter a search term");
+      return;
+    }
+    
+    setIsBirthdayGifSearching(true);
+    setBirthdayGifs([]);
+    
+    try {
+      const response = await fetch(
+        `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${encodeURIComponent(
+          birthdayGifSearch
+        )}&limit=20&offset=0&rating=g&lang=en`
+      );
+      
+      if (!response.ok) {
+        throw new Error(`Giphy API responded with status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.data && Array.isArray(data.data)) {
+        setBirthdayGifs(data.data);
+        
+        if (data.data.length === 0) {
+          toast.info("No GIFs found for your search");
+        }
+      } else {
+        throw new Error("Unexpected response format from Giphy API");
+      }
+    } catch (error) {
+      console.error("Error fetching GIFs:", error);
+      toast.error("Failed to fetch GIFs. Please try again.");
+    } finally {
+      setIsBirthdayGifSearching(false);
+    }
+  };
   
   // When the user presses Enter in the search input, trigger search
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -89,12 +138,27 @@ const BirthdayForm: React.FC = () => {
     }
   };
 
+  // When the user presses Enter in the birthday search input, trigger search
+  const handleBirthdaySearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      searchBirthdayGifs();
+    }
+  };
+
   // Load trending GIFs when selector is opened
   useEffect(() => {
     if (showGifSelector && gifs.length === 0) {
       fetchTrendingGifs();
     }
   }, [showGifSelector]);
+
+  // Load trending GIFs for birthday message when selector is opened
+  useEffect(() => {
+    if (showBirthdayGifSelector && birthdayGifs.length === 0) {
+      fetchTrendingBirthdayGifs();
+    }
+  }, [showBirthdayGifSelector]);
 
   // Fetch trending GIFs from Giphy
   const fetchTrendingGifs = async () => {
@@ -125,6 +189,35 @@ const BirthdayForm: React.FC = () => {
     }
   };
 
+  // Fetch trending GIFs for birthday message
+  const fetchTrendingBirthdayGifs = async () => {
+    setIsBirthdayGifSearching(true);
+    setBirthdayGifs([]);
+    
+    try {
+      const response = await fetch(
+        `https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_API_KEY}&limit=20&rating=g`
+      );
+      
+      if (!response.ok) {
+        throw new Error(`Giphy API responded with status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.data && Array.isArray(data.data)) {
+        setBirthdayGifs(data.data);
+      } else {
+        throw new Error("Unexpected response format from Giphy API");
+      }
+    } catch (error) {
+      console.error("Error fetching trending GIFs:", error);
+      toast.error("Failed to load trending GIFs.");
+    } finally {
+      setIsBirthdayGifSearching(false);
+    }
+  };
+
   const handleNextStep = () => {
     setError("");
     if (!name.trim()) {
@@ -152,7 +245,15 @@ const BirthdayForm: React.FC = () => {
     setError("");
     
     // Add the birthday and navigate to the countdown page
-    const birthdayId = addBirthday(name, month as number, day as number, message, birthdayMessage, gifUrl);
+    const birthdayId = addBirthday(
+      name, 
+      month as number, 
+      day as number, 
+      message, 
+      birthdayMessage, 
+      gifUrl,
+      birthdayGifUrl
+    );
     toast.success("Birthday countdown created!");
     navigate(`/countdown/${birthdayId}`);
   };
@@ -164,9 +265,24 @@ const BirthdayForm: React.FC = () => {
     toast.success("GIF selected!");
   };
 
+  const selectBirthdayGif = (url: string, sourceUrl: string) => {
+    setBirthdayGifUrl(url);
+    setBirthdayGifSource(sourceUrl);
+    setShowBirthdayGifSelector(false);
+    toast.success("Birthday GIF selected!");
+  };
+
   const openGiphySource = () => {
     if (gifSource) {
       window.open(gifSource, "_blank");
+    } else {
+      window.open("https://giphy.com/", "_blank");
+    }
+  };
+
+  const openBirthdayGiphySource = () => {
+    if (birthdayGifSource) {
+      window.open(birthdayGifSource, "_blank");
     } else {
       window.open("https://giphy.com/", "_blank");
     }
@@ -384,6 +500,119 @@ const BirthdayForm: React.FC = () => {
               <p className="text-sm text-muted-foreground mt-2">
                 This message will only be displayed when it's the actual birthday.
               </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="birthdayGif">Add a GIF for Birthday (Optional)</Label>
+              
+              {birthdayGifUrl ? (
+                <div className="relative">
+                  <img 
+                    src={birthdayGifUrl} 
+                    alt="Selected Birthday GIF" 
+                    className="w-full h-32 object-contain border border-gray-300 rounded-lg mb-2" 
+                  />
+                  <div className="flex justify-between items-center mt-1">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="text-xs h-8"
+                      onClick={openBirthdayGiphySource}
+                    >
+                      <span>Via Giphy</span>
+                      <ExternalLink className="ml-1 h-3 w-3" />
+                    </Button>
+                    
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="bg-white h-8 w-8 p-0"
+                      onClick={() => {
+                        setBirthdayGifUrl("");
+                        setBirthdayGifSource("");
+                      }}
+                    >
+                      ✕
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <Button 
+                  type="button"
+                  variant="outline"
+                  className="w-full flex items-center gap-2 border-gray-300 hover:bg-gray-50 text-gray-700"
+                  onClick={() => setShowBirthdayGifSelector(!showBirthdayGifSelector)}
+                >
+                  <Image className="h-4 w-4" />
+                  {showBirthdayGifSelector ? "Hide GIF selector" : "Select a birthday GIF"}
+                </Button>
+              )}
+              
+              {showBirthdayGifSelector && (
+                <div className="mt-2 border border-gray-200 rounded-lg p-3 bg-gray-50">
+                  <div className="flex gap-2 mb-3">
+                    <Input
+                      placeholder="Search for birthday GIFs..."
+                      value={birthdayGifSearch}
+                      onChange={(e) => setBirthdayGifSearch(e.target.value)}
+                      onKeyDown={handleBirthdaySearchKeyDown}
+                      className="flex-1"
+                    />
+                    <Button 
+                      type="button"
+                      variant="outline" 
+                      onClick={searchBirthdayGifs}
+                      disabled={isBirthdayGifSearching}
+                      className="shrink-0"
+                    >
+                      <Search className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-xs text-gray-500">Powered by</span>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6 px-2 py-0"
+                      onClick={() => window.open("https://giphy.com/", "_blank")}
+                    >
+                      <span className="font-bold text-sm">GIPHY</span>
+                      <ExternalLink className="ml-1 h-3 w-3" />
+                    </Button>
+                  </div>
+                  
+                  <div className="h-40 overflow-y-auto border border-gray-200 rounded-lg p-2 bg-white">
+                    {isBirthdayGifSearching ? (
+                      <div className="h-full flex items-center justify-center">
+                        <p className="text-gray-500">Loading...</p>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-2 gap-2">
+                        {birthdayGifs.map((gif) => (
+                          <img
+                            key={gif.id}
+                            src={gif.images.fixed_height_small.url}
+                            alt={gif.title}
+                            className="w-full h-20 object-cover cursor-pointer rounded border border-transparent hover:border-birthday"
+                            onClick={() => selectBirthdayGif(gif.images.original.url, gif.url)}
+                          />
+                        ))}
+                        {birthdayGifs.length === 0 && birthdayGifSearch && !isBirthdayGifSearching && (
+                          <p className="col-span-2 text-center text-gray-500 py-4">
+                            No GIFs found. Try a different search.
+                          </p>
+                        )}
+                        {birthdayGifs.length === 0 && !birthdayGifSearch && !isBirthdayGifSearching && (
+                          <p className="col-span-2 text-center text-gray-500 py-4">
+                            Loading trending GIFs...
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}

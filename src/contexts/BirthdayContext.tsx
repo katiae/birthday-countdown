@@ -10,11 +10,12 @@ export interface Birthday {
   message?: string;
   birthdayMessage?: string;
   gifUrl?: string;
+  birthdayGifUrl?: string;
 }
 
 interface BirthdayContextProps {
   birthdays: Birthday[];
-  addBirthday: (name: string, month: number, day: number, message?: string, birthdayMessage?: string, gifUrl?: string) => string;
+  addBirthday: (name: string, month: number, day: number, message?: string, birthdayMessage?: string, gifUrl?: string, birthdayGifUrl?: string) => string;
   getBirthdayById: (id: string) => Birthday | undefined;
 }
 
@@ -38,7 +39,7 @@ export const BirthdayProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     localStorage.setItem("birthdays", JSON.stringify(birthdays));
   }, [birthdays]);
 
-  const addBirthday = (name: string, month: number, day: number, message?: string, birthdayMessage?: string, gifUrl?: string): string => {
+  const addBirthday = (name: string, month: number, day: number, message?: string, birthdayMessage?: string, gifUrl?: string, birthdayGifUrl?: string): string => {
     const id = uuidv4();
     const newBirthday: Birthday = {
       id,
@@ -47,7 +48,8 @@ export const BirthdayProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       day,
       message,
       birthdayMessage,
-      gifUrl
+      gifUrl,
+      birthdayGifUrl
     };
     
     setBirthdays(prev => [...prev, newBirthday]);
