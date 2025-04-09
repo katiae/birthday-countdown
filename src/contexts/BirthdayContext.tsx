@@ -1,8 +1,7 @@
-
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-export interface Birthday {
+export type Birthday = {
   id: string;
   name: string;
   month: number;
@@ -11,7 +10,9 @@ export interface Birthday {
   birthdayMessage?: string;
   gifUrl?: string;
   birthdayGifUrl?: string;
-}
+  textColor?: string;
+  createdAt: number;
+};
 
 interface BirthdayContextProps {
   birthdays: Birthday[];
@@ -41,6 +42,14 @@ export const getLocalStorageBirthdays = (): Birthday[] => {
   }
 };
 
+const setLocalStorageBirthdays = (birthdays: Birthday[]) => {
+  try {
+    localStorage.setItem("birthdays", JSON.stringify(birthdays));
+  } catch (error) {
+    console.error("Error updating localStorage:", error);
+  }
+};
+
 export const BirthdayProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Initialize with data from localStorage directly
   const [birthdays, setBirthdays] = useState<Birthday[]>(getLocalStorageBirthdays());
@@ -52,31 +61,34 @@ export const BirthdayProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   }, [birthdays]);
 
-  const addBirthday = (name: string, month: number, day: number, message?: string, birthdayMessage?: string, gifUrl?: string, birthdayGifUrl?: string): string => {
-    const id = uuidv4();
+  const addBirthday = (
+    name: string, 
+    month: number, 
+    day: number, 
+    message?: string, 
+    birthdayMessage?: string,
+    gifUrl?: string,
+    birthdayGifUrl?: string,
+    textColor?: string
+  ): string => {
     const newBirthday: Birthday = {
-      id,
+      id: uuidv4(),
       name,
       month,
       day,
       message,
       birthdayMessage,
       gifUrl,
-      birthdayGifUrl
+      birthdayGifUrl,
+      textColor,
+      createdAt: Date.now(),
     };
+
+    const updatedBirthdays = [...birthdays, newBirthday];
+    setBirthdays(updatedBirthdays);
+    setLocalStorageBirthdays(updatedBirthdays);
     
-    // Add to state
-    setBirthdays(prev => [...prev, newBirthday]);
-    
-    // Also directly update localStorage to ensure instant availability
-    try {
-      const currentBirthdays = getLocalStorageBirthdays();
-      localStorage.setItem("birthdays", JSON.stringify([...currentBirthdays, newBirthday]));
-    } catch (error) {
-      console.error("Error updating localStorage:", error);
-    }
-    
-    return id;
+    return newBirthday.id;
   };
 
   const getBirthdayById = (id: string): Birthday | undefined => {

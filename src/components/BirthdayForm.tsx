@@ -215,7 +215,7 @@ const BirthdayForm: React.FC = () => {
         </CardTitle>
         <CardDescription className="text-zinc-800 text-[16px]">
           {step === 1 
-            ? "Add a birthday to create a personalized countdown page" 
+            ? "Add the birthday details to create a personalized countdown page" 
             : "Add a special message that will appear on the birthday day"}
         </CardDescription>
       </CardHeader>

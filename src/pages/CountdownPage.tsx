@@ -18,15 +18,10 @@ const CountdownPage: React.FC = () => {
       return;
     }
 
-    console.log(`Looking for birthday with ID: ${id}`);
-
     const localBirthdays = getLocalStorageBirthdays();
-    console.log("All birthdays in localStorage:", localBirthdays);
-
     const foundBirthday = localBirthdays.find(b => b.id === id);
 
     if (foundBirthday) {
-      console.log("Found birthday directly in localStorage:", foundBirthday);
       setBirthday(foundBirthday);
       setIsLoading(false);
       return;
@@ -34,7 +29,6 @@ const CountdownPage: React.FC = () => {
 
     const contextBirthday = getBirthdayById(id);
     if (contextBirthday) {
-      console.log("Found birthday from context:", contextBirthday);
       setBirthday(contextBirthday);
     }
 
@@ -44,9 +38,8 @@ const CountdownPage: React.FC = () => {
   const handleShare = async () => {
     try {
       if (!birthday) throw new Error("No birthday to share");
-      const name = encodeURIComponent(birthday.name);
-      const date = encodeURIComponent(`${birthday.month}-${birthday.day}`); // Or adjust format as needed
-      const shareUrl = `${window.location.origin}/?name=${name}&date=${date}`;
+      
+      const shareUrl = `${window.location.origin}/countdown/${birthday.id}`;
       await navigator.clipboard.writeText(shareUrl);
       toast.success("Link copied to clipboard!");
     } catch (error) {
@@ -100,6 +93,7 @@ const CountdownPage: React.FC = () => {
         birthdayMessage={birthday.birthdayMessage}
         gifUrl={birthday.gifUrl}
         birthdayGifUrl={birthday.birthdayGifUrl}
+        textColor={birthday.textColor}
       />
 
       <div className="mt-8 flex gap-4">
