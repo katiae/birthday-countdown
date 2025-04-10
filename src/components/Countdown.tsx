@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import ConfettiExplosion from "@/components/ConfettiExplosion";
 import { Link } from "react-router-dom";
 import Confetti from "react-confetti";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface CountdownProps {
   name: string;
@@ -41,6 +42,7 @@ const Countdown: React.FC<CountdownProps> = ({
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     document.title = isToday ? "Today is your day" : "The countdown begins";
@@ -128,63 +130,63 @@ const Countdown: React.FC<CountdownProps> = ({
           style={{ position: 'fixed', top: 0, left: 0, zIndex: 1000 }}
         />
       )}
-      <div className="relative w-full max-w-3xl px-4">
-        <Card className="border-gray-200 rounded-3xl overflow-hidden max-w-3xl w-full">
-          <CardContent className="p-12">
+      <div className="relative w-full max-w-3xl px-4 mx-auto">
+        <Card className="border-gray-200 rounded-3xl overflow-hidden w-full">
+          <CardContent className={`p-4 sm:p-8 md:p-12`}>
             {isToday ? (
               <div className="text-center space-y-4">
-                <h2 className={`text-3xl font-bold ${textColor}`}>Today is your day!</h2>
+                <h2 className={`text-2xl sm:text-3xl font-bold ${textColor}`}>Today is your day!</h2>
                 {birthdayMessage && (
-                  <p className={`text-xl ${textColor} text-center`}>{birthdayMessage}</p>
+                  <p className={`text-lg sm:text-xl ${textColor} text-center`}>{birthdayMessage}</p>
                 )}
                 {birthdayGifUrl && (
                   <div className="mt-6">
                     <img
                       src={birthdayGifUrl}
                       alt="Birthday GIF"
-                      className="mx-auto max-h-64 rounded-lg"
+                      className="mx-auto max-h-64 rounded-lg max-w-full"
                     />
                   </div>
                 )}
               </div>
             ) : (
               <>
-                <h1 className={`text-5xl font-bold ${textColor} mb-6`}>
+                <h1 className={`text-3xl sm:text-4xl md:text-5xl font-bold ${textColor} mb-6`}>
                   <span className="block text-center">{`${name}'s birthday in`}</span>
                 </h1>
                 
-                <div className="flex justify-center gap-6 mb-8">
+                <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 mb-8">
                   <div className="flex flex-col items-center">
-                    <div className={`text-5xl font-bold ${textColor} rounded-xl w-20 h-20 flex items-center justify-center bg-zinc-100`}>
+                    <div className={`text-3xl sm:text-4xl md:text-5xl font-bold ${textColor} rounded-xl w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.days}
                     </div>
-                    <span className="text-sm text-gray-500 mt-2">Days</span>
+                    <span className="text-xs sm:text-sm text-gray-500 mt-2">Days</span>
                   </div>
                   
                   <div className="flex flex-col items-center">
-                    <div className={`text-5xl font-bold ${textColor} rounded-xl w-20 h-20 flex items-center justify-center bg-zinc-100`}>
+                    <div className={`text-3xl sm:text-4xl md:text-5xl font-bold ${textColor} rounded-xl w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.hours}
                     </div>
-                    <span className="text-sm text-gray-500 mt-2">Hours</span>
+                    <span className="text-xs sm:text-sm text-gray-500 mt-2">Hours</span>
                   </div>
                   
                   <div className="flex flex-col items-center">
-                    <div className={`text-5xl font-bold ${textColor} rounded-xl w-20 h-20 flex items-center justify-center bg-zinc-100`}>
+                    <div className={`text-3xl sm:text-4xl md:text-5xl font-bold ${textColor} rounded-xl w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.minutes}
                     </div>
-                    <span className="text-sm text-gray-500 mt-2">Minutes</span>
+                    <span className="text-xs sm:text-sm text-gray-500 mt-2">Minutes</span>
                   </div>
                   
                   <div className="flex flex-col items-center">
-                    <div className={`text-5xl font-bold ${textColor} rounded-xl w-20 h-20 flex items-center justify-center bg-zinc-100`}>
+                    <div className={`text-3xl sm:text-4xl md:text-5xl font-bold ${textColor} rounded-xl w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.seconds}
                     </div>
-                    <span className="text-sm text-gray-500 mt-2">Seconds</span>
+                    <span className="text-xs sm:text-sm text-gray-500 mt-2">Seconds</span>
                   </div>
                 </div>
                 
                 {message && (
-                  <p className={`mt-6 text-xl ${textColor} text-center`}>{message}</p>
+                  <p className={`mt-6 text-lg sm:text-xl ${textColor} text-center`}>{message}</p>
                 )}
                 
                 {gifUrl && (
@@ -192,7 +194,7 @@ const Countdown: React.FC<CountdownProps> = ({
                     <img
                       src={gifUrl}
                       alt="Countdown GIF"
-                      className="mx-auto max-h-64 rounded-lg"
+                      className="mx-auto max-h-64 rounded-lg max-w-full"
                     />
                   </div>
                 )}
