@@ -322,7 +322,7 @@ const BirthdayForm: React.FC = () => {
             </div>
             
             <div className="space-y-1">
-              <Label htmlFor="message">Personalised countdown message (Optional)</Label>
+              <Label htmlFor="message">Countdown message (Optional)</Label>
               <Textarea 
                 id="message" 
                 placeholder="Add a personal message that will appear on the countdown days before the birthday" 
