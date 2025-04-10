@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";  // Import necessary hooks
 import BirthdayForm from "@/components/BirthdayForm";
 import Countdown from "@/components/Countdown";  // Import Countdown component
-import { Cake, Plus } from "lucide-react";  // For icons
+import { Cake, Plus, Share } from "lucide-react";  // For icons
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const Index: React.FC = () => {
   const [searchParams] = useSearchParams();  // To read URL parameters
@@ -54,6 +56,17 @@ const Index: React.FC = () => {
     }
   }, [searchParams]);
   
+  const handleShare = async () => {
+    try {
+      const shareUrl = `${window.location.origin}/?name=${encodeURIComponent(name)}&date=${encodeURIComponent(`${month}-${day}`)}&message=${encodeURIComponent(message || '')}&birthdayMessage=${encodeURIComponent(birthdayMessage || '')}&gifUrl=${encodeURIComponent(gifUrl || '')}&birthdayGifUrl=${encodeURIComponent(birthdayGifUrl || '')}&textColor=${encodeURIComponent(textColor || 'text-zinc-800')}`;
+      
+      await navigator.clipboard.writeText(shareUrl);
+      toast.success("Link copied to clipboard!");
+    } catch (error) {
+      toast.error("Failed to copy link to clipboard");
+      console.error(error);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
@@ -76,6 +89,24 @@ const Index: React.FC = () => {
             birthdayGifUrl={birthdayGifUrl}
             textColor={textColor}
           />
+          <div className="mt-8 flex gap-4">
+            <Button 
+              variant="outline" 
+              className="border-birthday text-birthday hover:bg-birthday/5"
+              onClick={() => {
+                window.location.href = '/';
+              }}
+            >
+              Create Your Own
+            </Button>
+            <Button
+              onClick={handleShare} 
+              className="flex items-center gap-2 bg-birthday hover:bg-birthday/90 text-white"
+            >
+              <Share className="h-4 w-4" />
+              Share Countdown
+            </Button>
+          </div>
         </div>
       ) : (
         <BirthdayForm />
