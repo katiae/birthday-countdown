@@ -451,7 +451,7 @@ const BirthdayForm: React.FC = () => {
         ) : (
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label>Birthday Message (optional)</Label>
+              <Label>Birthday Message (Optional)</Label>
               <Textarea
                 placeholder="Write a special birthday message..."
                 value={birthdayMessage}
