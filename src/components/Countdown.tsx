@@ -85,7 +85,7 @@ const Countdown: React.FC<CountdownProps> = ({
         <CardContent className="p-8">
           {isToday ? <>
               <div className="text-center space-y-2">
-                <h2 className="text-2xl font-bold text-birthday">Today is your day!</h2>
+                <h2 className={`text-2xl font-bold ${textColor}`}>Today is your day!</h2>
                 {birthdayMessage && (
                   <p className={`text-lg ${textColor}`}>{birthdayMessage}</p>
                 )}
@@ -106,28 +106,28 @@ const Countdown: React.FC<CountdownProps> = ({
               
               <div className="flex justify-center gap-4 mt-6">
                 <div className="flex flex-col items-center">
-                  <div className="text-4xl font-bold text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100">
+                  <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
                     {timeLeft.days}
                   </div>
                   <span className="text-xs text-gray-500 mt-1">Days</span>
                 </div>
                 
                 <div className="flex flex-col items-center">
-                  <div className="text-4xl font-bold text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100">
+                  <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
                     {timeLeft.hours}
                   </div>
                   <span className="text-xs text-gray-500 mt-1">Hours</span>
                 </div>
                 
                 <div className="flex flex-col items-center">
-                  <div className="text-4xl font-bold text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100">
+                  <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
                     {timeLeft.minutes}
                   </div>
                   <span className="text-xs text-gray-500 mt-1">Minutes</span>
                 </div>
                 
                 <div className="flex flex-col items-center">
-                  <div className="text-4xl font-bold text-birthday-accent rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100">
+                  <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
                     {timeLeft.seconds}
                   </div>
                   <span className="text-xs text-gray-500 mt-1">Seconds</span>

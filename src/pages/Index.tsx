@@ -17,6 +17,7 @@ const Index: React.FC = () => {
   const [isBirthdayToday, setIsBirthdayToday] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [confettiRecycle, setConfettiRecycle] = useState(true);
+  const [textColor, setTextColor] = useState("text-zinc-800");
 
   useEffect(() => {
     const nameParam = searchParams.get("name");
@@ -25,6 +26,7 @@ const Index: React.FC = () => {
     const bdayMsg = searchParams.get("birthdayMessage") || "";
     const gifUrl = searchParams.get("gifUrl") || "";
     const bdayGif = searchParams.get("birthdayGifUrl") || "";
+    const color = searchParams.get("textColor") || "text-zinc-800";
   
     if (nameParam && dateParam) {
       const [parsedMonth, parsedDay] = dateParam.split("-").map(Number);
@@ -36,6 +38,7 @@ const Index: React.FC = () => {
         setBirthdayMessage(bdayMsg);
         setGifUrl(gifUrl);
         setBirthdayGifUrl(bdayGif);
+        setTextColor(color);
         setShowCountdown(true);
   
         const today = new Date();
@@ -71,6 +74,7 @@ const Index: React.FC = () => {
             birthdayMessage={birthdayMessage}
             gifUrl={gifUrl}
             birthdayGifUrl={birthdayGifUrl}
+            textColor={textColor}
           />
         </div>
       ) : (

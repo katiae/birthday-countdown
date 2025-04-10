@@ -16,7 +16,7 @@ export type Birthday = {
 
 interface BirthdayContextProps {
   birthdays: Birthday[];
-  addBirthday: (name: string, month: number, day: number, message?: string, birthdayMessage?: string, gifUrl?: string, birthdayGifUrl?: string) => string;
+  addBirthday: (name: string, month: number, day: number, message?: string, birthdayMessage?: string, gifUrl?: string, birthdayGifUrl?: string, textColor?: string) => string;
   getBirthdayById: (id: string) => Birthday | undefined;
   getLocalBirthdays: () => Birthday[];
 }

@@ -156,7 +156,8 @@ const BirthdayForm: React.FC = () => {
       message, 
       birthdayMessage, 
       gifUrl,
-      birthdayGifUrl
+      birthdayGifUrl,
+      textColor
     );
     toast.success("Birthday countdown created!");
     navigate(`/countdown/${birthdayId}`);

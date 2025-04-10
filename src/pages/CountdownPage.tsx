@@ -52,7 +52,7 @@ const CountdownPage: React.FC = () => {
     try {
       if (!birthday) throw new Error("No birthday to share");
       
-      const shareUrl = `${window.location.origin}/?name=${encodeURIComponent(birthday.name)}&date=${encodeURIComponent(`${birthday.month}-${birthday.day}`)}&message=${encodeURIComponent(birthday.message || '')}&birthdayMessage=${encodeURIComponent(birthday.birthdayMessage || '')}&gifUrl=${encodeURIComponent(birthday.gifUrl || '')}&birthdayGifUrl=${encodeURIComponent(birthday.birthdayGifUrl || '')}`;
+      const shareUrl = `${window.location.origin}/?name=${encodeURIComponent(birthday.name)}&date=${encodeURIComponent(`${birthday.month}-${birthday.day}`)}&message=${encodeURIComponent(birthday.message || '')}&birthdayMessage=${encodeURIComponent(birthday.birthdayMessage || '')}&gifUrl=${encodeURIComponent(birthday.gifUrl || '')}&birthdayGifUrl=${encodeURIComponent(birthday.birthdayGifUrl || '')}&textColor=${encodeURIComponent(birthday.textColor || 'text-zinc-800')}`;
       
       await navigator.clipboard.writeText(shareUrl);
       toast.success("Link copied to clipboard!");
