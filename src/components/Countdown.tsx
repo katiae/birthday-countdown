@@ -129,8 +129,8 @@ const Countdown: React.FC<CountdownProps> = ({
           style={{ position: 'fixed', top: 0, left: 0, zIndex: 1000 }}
         />
       )}
-      <div className="relative w-full max-w-2xl px-4">
-        <Card className="border-gray-200 rounded-3xl overflow-hidden max-w-2xl w-full">
+      <div className="relative w-full max-w-3xl px-4">
+        <Card className="border-gray-200 rounded-3xl overflow-hidden max-w-3xl w-full">
           <CardContent className="p-12">
             {isToday ? (
               <div className="text-center space-y-4">
