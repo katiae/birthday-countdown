@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { useBirthday } from "@/contexts/BirthdayContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -228,22 +227,26 @@ const BirthdayForm: React.FC = () => {
   };
 
   const handleGifSelectorOpen = () => {
-    setShowGifSelector(true);
-    setIsSearching(true);
-    fetchTrendingGifs();
-    setTimeout(() => {
-      gifSearchRef.current?.focus();
-    }, 0);
+    setShowGifSelector(!showGifSelector);
+    if (!showGifSelector) {
+      setIsSearching(true);
+      fetchTrendingGifs();
+      setTimeout(() => {
+        gifSearchRef.current?.focus();
+      }, 0);
+    }
   };
 
   const handleBirthdayGifSelectorOpen = () => {
-    setShowBirthdayGifSelector(true);
-    setIsBirthdayGifSearching(true);
-    setBirthdayGifSearch("");
-    fetchTrendingBirthdayGifs();
-    setTimeout(() => {
-      birthdayGifSearchRef.current?.focus();
-    }, 0);
+    setShowBirthdayGifSelector(!showBirthdayGifSelector);
+    if (!showBirthdayGifSelector) {
+      setIsBirthdayGifSearching(true);
+      setBirthdayGifSearch("");
+      fetchTrendingBirthdayGifs();
+      setTimeout(() => {
+        birthdayGifSearchRef.current?.focus();
+      }, 0);
+    }
   };
 
   const [textColor, setTextColor] = useState("text-zinc-800");
