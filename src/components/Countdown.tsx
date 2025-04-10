@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -136,7 +137,7 @@ const Countdown: React.FC<CountdownProps> = ({
               <div className="text-center space-y-4">
                 <h2 className={`text-3xl font-bold ${textColor}`}>Today is your day!</h2>
                 {birthdayMessage && (
-                  <p className={`text-xl ${textColor}`}>{birthdayMessage}</p>
+                  <p className={`text-xl ${textColor} text-center`}>{birthdayMessage}</p>
                 )}
                 {birthdayGifUrl && (
                   <div className="mt-6">
@@ -155,7 +156,7 @@ const Countdown: React.FC<CountdownProps> = ({
                 </h1>
                 
                 {message && (
-                  <p className={`mt-6 text-xl ${textColor}`}>{message}</p>
+                  <p className={`mt-6 text-xl ${textColor} text-center`}>{message}</p>
                 )}
                 
                 {gifUrl && (
