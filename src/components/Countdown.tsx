@@ -22,7 +22,7 @@ const Countdown: React.FC<CountdownProps> = ({
   birthdayMessage,
   gifUrl,
   birthdayGifUrl,
-  textColor
+  textColor = ""
 }) => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -84,27 +84,23 @@ const Countdown: React.FC<CountdownProps> = ({
       <Card className="border-gray-200 rounded-3xl overflow-hidden max-w-2xl w-full">
         <CardContent className="p-8">
           {isToday ? <>
-              <h1 className="text-4xl font-bold text-zinc-800 whitespace-normal break-words">
-                <span className="block">Happy Birthday, {name}!</span>
-              </h1>
-              
-              {birthdayMessage && <div className="my-8 px-10 py-8 bg-gray-50 rounded-md border border-gray-100">
-                  <p className="text-lg text-zinc-800">
-                    {birthdayMessage}
-                  </p>
-                  
-                  {birthdayGifUrl && <div className="mt-4">
-                      <img src={birthdayGifUrl} alt="Birthday GIF" className="mx-auto max-h-80 object-contain rounded" />
-                      <div className="mt-2 flex justify-end">
-                        <Button variant="ghost" size="sm" className="h-6 px-2 py-0 text-xs" onClick={() => window.open("https://giphy.com/", "_blank")}>
-                          <span>Via Giphy</span>
-                          <ExternalLink className="ml-1 h-3 w-3" />
-                        </Button>
-                      </div>
-                    </div>}
-                </div>}
+              <div className="text-center space-y-2">
+                <h2 className="text-2xl font-bold text-birthday">Today is your day!</h2>
+                {birthdayMessage && (
+                  <p className={`text-lg ${textColor}`}>{birthdayMessage}</p>
+                )}
+                {birthdayGifUrl && (
+                  <div className="mt-4">
+                    <img
+                      src={birthdayGifUrl}
+                      alt="Birthday GIF"
+                      className="mx-auto max-h-48 rounded-lg"
+                    />
+                  </div>
+                )}
+              </div>
             </> : <>
-              <h1 className="text-4xl font-bold text-zinc-800 whitespace-normal break-words">
+              <h1 className={`text-4xl font-bold ${textColor}`}>
                 <span className="block text-center">{isBehind ? `${name}'s next birthday in` : `${name}'s birthday in`}</span>
               </h1>
               
@@ -139,7 +135,7 @@ const Countdown: React.FC<CountdownProps> = ({
               </div>
               
               {message && <div className="bg-gray-50 px-6 py-4 rounded-lg border border-gray-100 mt-4">
-                  <p className="text-center">{message}</p>
+                  <p className={`text-center ${textColor}`}>{message}</p>
                 </div>}
 
               {gifUrl && <div className="mt-6">

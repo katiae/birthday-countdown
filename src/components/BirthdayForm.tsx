@@ -244,6 +244,8 @@ const BirthdayForm: React.FC = () => {
     }, 0);
   };
 
+  const [textColor, setTextColor] = useState("text-zinc-800");
+
   return (
     <Card className="w-full max-w-md border border-gray-200 rounded-3xl">
       <CardHeader className="space-y-1 px-8 pt-8">
@@ -442,22 +444,66 @@ const BirthdayForm: React.FC = () => {
           </form>
         ) : (
           <div className="space-y-4">
-            <div className="space-y-1">
-              <Label htmlFor="birthdayMessage">Birthday Message</Label>
-              <Textarea 
-                id="birthdayMessage" 
-                placeholder="Enter a special message to display on the birthday" 
-                value={birthdayMessage} 
-                onChange={e => setBirthdayMessage(e.target.value)} 
-                className="border-gray-300 focus:border-gray-400 focus:ring-birthday min-h-[150px] resize-none" 
+            <div className="space-y-2">
+              <Label>Birthday Message (optional)</Label>
+              <Textarea
+                placeholder="Write a special birthday message..."
+                value={birthdayMessage}
+                onChange={(e) => setBirthdayMessage(e.target.value)}
+                className="min-h-[100px]"
               />
-              <p className="text-sm text-muted-foreground mt-2">
-                This message will only be displayed when it's the actual birthday.
-              </p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="birthdayGif">Add a GIF for Birthday (Optional)</Label>
+              <Label>Select Text Color</Label>
+              <div className="grid grid-cols-6 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setTextColor("text-zinc-800")}
+                  className={`h-10 rounded-lg border-2 ${
+                    textColor === "text-zinc-800" ? "border-birthday" : "border-gray-200"
+                  } bg-zinc-800`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setTextColor("text-rose-500")}
+                  className={`h-10 rounded-lg border-2 ${
+                    textColor === "text-rose-500" ? "border-birthday" : "border-gray-200"
+                  } bg-rose-500`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setTextColor("text-indigo-600")}
+                  className={`h-10 rounded-lg border-2 ${
+                    textColor === "text-indigo-600" ? "border-birthday" : "border-gray-200"
+                  } bg-indigo-600`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setTextColor("text-emerald-400")}
+                  className={`h-10 rounded-lg border-2 ${
+                    textColor === "text-emerald-400" ? "border-birthday" : "border-gray-200"
+                  } bg-emerald-400`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setTextColor("text-purple-600")}
+                  className={`h-10 rounded-lg border-2 ${
+                    textColor === "text-purple-600" ? "border-birthday" : "border-gray-200"
+                  } bg-purple-600`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setTextColor("text-amber-500")}
+                  className={`h-10 rounded-lg border-2 ${
+                    textColor === "text-amber-500" ? "border-birthday" : "border-gray-200"
+                  } bg-amber-500`}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Add a Birthday GIF (optional)</Label>
               
               {birthdayGifUrl ? (
                 <div className="relative">
