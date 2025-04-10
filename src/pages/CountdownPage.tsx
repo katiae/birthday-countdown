@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useBirthday, getLocalStorageBirthdays, Birthday } from "@/contexts/BirthdayContext";
@@ -91,11 +92,11 @@ const CountdownPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-3xl text-center mb-8">
+    <div className="min-h-screen flex flex-col items-center justify-center p-2 sm:p-4">
+      <div className="w-full max-w-3xl text-center mb-4 sm:mb-8">
         <Link to="/" className="inline-flex items-center gap-2 text-birthday hover:text-birthday/80 transition-colors">
-          <Cake className="h-6 w-6" />
-          <span className="text-2xl font-bold">Birthday Countdown</span>
+          <Cake className="h-5 w-5 sm:h-6 sm:w-6" />
+          <span className="text-xl sm:text-2xl font-bold">Birthday Countdown</span>
         </Link>
       </div>
 
@@ -110,17 +111,17 @@ const CountdownPage: React.FC = () => {
         textColor={birthday.textColor}
       />
 
-      <div className="mt-8 flex gap-4">
+      <div className="mt-6 sm:mt-8 flex gap-3 sm:gap-4">
         <Link to="/">
-          <Button variant="outline" className="border-birthday text-birthday hover:bg-birthday/5">
+          <Button variant="outline" className="border-birthday text-birthday hover:bg-birthday/5 text-sm sm:text-base">
             Create Your Own
           </Button>
         </Link>
         <Button
           onClick={handleShare} 
-          className="flex items-center gap-2 bg-birthday hover:bg-birthday/90 text-white"
+          className="flex items-center gap-1 sm:gap-2 bg-birthday hover:bg-birthday/90 text-white text-sm sm:text-base"
         >
-          <Share className="h-4 w-4" />
+          <Share className="h-3 w-3 sm:h-4 sm:w-4" />
           Share Countdown
         </Button>
       </div>

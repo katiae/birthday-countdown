@@ -130,9 +130,9 @@ const Countdown: React.FC<CountdownProps> = ({
           style={{ position: 'fixed', top: 0, left: 0, zIndex: 1000 }}
         />
       )}
-      <div className="relative w-full max-w-3xl px-4 mx-auto">
+      <div className="relative w-full px-0 sm:px-4 mx-auto">
         <Card className="border-gray-200 rounded-3xl overflow-hidden w-full">
-          <CardContent className={`p-4 sm:p-8 md:p-12`}>
+          <CardContent className={`p-3 sm:p-6 md:p-10`}>
             {isToday ? (
               <div className="text-center space-y-4">
                 <h2 className={`text-2xl sm:text-3xl font-bold ${textColor}`}>Today is your day!</h2>
@@ -151,50 +151,50 @@ const Countdown: React.FC<CountdownProps> = ({
               </div>
             ) : (
               <>
-                <h1 className={`text-3xl sm:text-4xl md:text-5xl font-bold ${textColor} mb-6`}>
+                <h1 className={`text-2xl sm:text-3xl md:text-4xl font-bold ${textColor} mb-4 sm:mb-6`}>
                   <span className="block text-center">{`${name}'s birthday in`}</span>
                 </h1>
                 
-                <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 mb-8">
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-6 mb-6 sm:mb-8">
                   <div className="flex flex-col items-center">
-                    <div className={`text-3xl sm:text-4xl md:text-5xl font-bold ${textColor} rounded-xl w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 flex items-center justify-center bg-zinc-100`}>
+                    <div className={`text-2xl sm:text-3xl md:text-4xl font-bold ${textColor} rounded-xl w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.days}
                     </div>
-                    <span className="text-xs sm:text-sm text-gray-500 mt-2">Days</span>
+                    <span className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">Days</span>
                   </div>
                   
                   <div className="flex flex-col items-center">
-                    <div className={`text-3xl sm:text-4xl md:text-5xl font-bold ${textColor} rounded-xl w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 flex items-center justify-center bg-zinc-100`}>
+                    <div className={`text-2xl sm:text-3xl md:text-4xl font-bold ${textColor} rounded-xl w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.hours}
                     </div>
-                    <span className="text-xs sm:text-sm text-gray-500 mt-2">Hours</span>
+                    <span className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">Hours</span>
                   </div>
                   
                   <div className="flex flex-col items-center">
-                    <div className={`text-3xl sm:text-4xl md:text-5xl font-bold ${textColor} rounded-xl w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 flex items-center justify-center bg-zinc-100`}>
+                    <div className={`text-2xl sm:text-3xl md:text-4xl font-bold ${textColor} rounded-xl w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.minutes}
                     </div>
-                    <span className="text-xs sm:text-sm text-gray-500 mt-2">Minutes</span>
+                    <span className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">Minutes</span>
                   </div>
                   
                   <div className="flex flex-col items-center">
-                    <div className={`text-3xl sm:text-4xl md:text-5xl font-bold ${textColor} rounded-xl w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 flex items-center justify-center bg-zinc-100`}>
+                    <div className={`text-2xl sm:text-3xl md:text-4xl font-bold ${textColor} rounded-xl w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.seconds}
                     </div>
-                    <span className="text-xs sm:text-sm text-gray-500 mt-2">Seconds</span>
+                    <span className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">Seconds</span>
                   </div>
                 </div>
                 
                 {message && (
-                  <p className={`mt-6 text-lg sm:text-xl ${textColor} text-center`}>{message}</p>
+                  <p className={`mt-4 sm:mt-6 text-base sm:text-lg ${textColor} text-center px-2 sm:px-0`}>{message}</p>
                 )}
                 
                 {gifUrl && (
-                  <div className="mt-8">
+                  <div className="mt-4 sm:mt-8">
                     <img
                       src={gifUrl}
                       alt="Countdown GIF"
-                      className="mx-auto max-h-64 rounded-lg max-w-full"
+                      className="mx-auto max-h-48 sm:max-h-64 rounded-lg max-w-full"
                     />
                   </div>
                 )}
