@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { useBirthday } from "@/contexts/BirthdayContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -383,6 +384,7 @@ const BirthdayForm: React.FC = () => {
                       onChange={(e) => setGifSearch(e.target.value)}
                       onKeyDown={handleSearchKeyDown}
                       className="flex-1"
+                      ref={gifSearchRef}
                     />
                     <Button 
                       type="button"
@@ -558,6 +560,7 @@ const BirthdayForm: React.FC = () => {
                       onChange={(e) => setBirthdayGifSearch(e.target.value)}
                       onKeyDown={handleBirthdaySearchKeyDown}
                       className="flex-1"
+                      ref={birthdayGifSearchRef}
                     />
                     <Button 
                       type="button"
