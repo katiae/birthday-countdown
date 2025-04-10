@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -130,7 +129,7 @@ const Countdown: React.FC<CountdownProps> = ({
           style={{ position: 'fixed', top: 0, left: 0, zIndex: 1000 }}
         />
       )}
-      <div className="relative w-full sm:w-auto sm:px-4 mx-auto">
+      <div className="relative w-full sm:w-auto mx-auto">
         <Card className="border-gray-200 rounded-3xl overflow-hidden w-full">
           <CardContent className={`p-3 sm:p-6 md:p-10`}>
             {isToday ? (
