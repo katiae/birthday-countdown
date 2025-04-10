@@ -100,16 +100,18 @@ const CountdownPage: React.FC = () => {
         </Link>
       </div>
 
-      <Countdown 
-        name={birthday.name}
-        month={birthday.month}
-        day={birthday.day}
-        message={birthday.message}
-        birthdayMessage={birthday.birthdayMessage}
-        gifUrl={birthday.gifUrl}
-        birthdayGifUrl={birthday.birthdayGifUrl}
-        textColor={birthday.textColor}
-      />
+      <div className="w-full sm:w-auto max-w-3xl">
+        <Countdown 
+          name={birthday.name}
+          month={birthday.month}
+          day={birthday.day}
+          message={birthday.message}
+          birthdayMessage={birthday.birthdayMessage}
+          gifUrl={birthday.gifUrl}
+          birthdayGifUrl={birthday.birthdayGifUrl}
+          textColor={birthday.textColor}
+        />
+      </div>
 
       <div className="mt-6 sm:mt-8 flex gap-3 sm:gap-4">
         <Link to="/">
