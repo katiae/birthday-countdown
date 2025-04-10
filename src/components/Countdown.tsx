@@ -131,72 +131,72 @@ const Countdown: React.FC<CountdownProps> = ({
       )}
       <div className="relative w-full max-w-2xl px-4">
         <Card className="border-gray-200 rounded-3xl overflow-hidden max-w-2xl w-full">
-          <CardContent className="p-8">
+          <CardContent className="p-12">
             {isToday ? (
-              <div className="text-center space-y-2">
-                <h2 className={`text-2xl font-bold ${textColor}`}>Today is your day!</h2>
+              <div className="text-center space-y-4">
+                <h2 className={`text-3xl font-bold ${textColor}`}>Today is your day!</h2>
                 {birthdayMessage && (
-                  <p className={`text-lg ${textColor}`}>{birthdayMessage}</p>
+                  <p className={`text-xl ${textColor}`}>{birthdayMessage}</p>
                 )}
                 {birthdayGifUrl && (
-                  <div className="mt-4">
+                  <div className="mt-6">
                     <img
                       src={birthdayGifUrl}
                       alt="Birthday GIF"
-                      className="mx-auto max-h-48 rounded-lg"
+                      className="mx-auto max-h-64 rounded-lg"
                     />
                   </div>
                 )}
               </div>
             ) : (
               <>
-                <h1 className={`text-4xl font-bold ${textColor}`}>
+                <h1 className={`text-5xl font-bold ${textColor}`}>
                   <span className="block text-center">{timeLeft.days > 0 ? `${name}'s birthday in` : "Happy Birthday, " + name + "!"}</span>
                 </h1>
                 
-                <div className="flex justify-center gap-4 mt-6">
+                {message && (
+                  <p className={`mt-6 text-xl ${textColor}`}>{message}</p>
+                )}
+                
+                {gifUrl && (
+                  <div className="mt-8">
+                    <img
+                      src={gifUrl}
+                      alt="Countdown GIF"
+                      className="mx-auto max-h-64 rounded-lg"
+                    />
+                  </div>
+                )}
+                
+                <div className="flex justify-center gap-6 mt-8">
                   <div className="flex flex-col items-center">
-                    <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
+                    <div className={`text-5xl font-bold ${textColor} rounded-xl w-20 h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.days}
                     </div>
-                    <span className="text-xs text-gray-500 mt-1">Days</span>
+                    <span className="text-sm text-gray-500 mt-2">Days</span>
                   </div>
                   
                   <div className="flex flex-col items-center">
-                    <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
+                    <div className={`text-5xl font-bold ${textColor} rounded-xl w-20 h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.hours}
                     </div>
-                    <span className="text-xs text-gray-500 mt-1">Hours</span>
+                    <span className="text-sm text-gray-500 mt-2">Hours</span>
                   </div>
                   
                   <div className="flex flex-col items-center">
-                    <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
+                    <div className={`text-5xl font-bold ${textColor} rounded-xl w-20 h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.minutes}
                     </div>
-                    <span className="text-xs text-gray-500 mt-1">Minutes</span>
+                    <span className="text-sm text-gray-500 mt-2">Minutes</span>
                   </div>
                   
                   <div className="flex flex-col items-center">
-                    <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
+                    <div className={`text-5xl font-bold ${textColor} rounded-xl w-20 h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.seconds}
                     </div>
-                    <span className="text-xs text-gray-500 mt-1">Seconds</span>
+                    <span className="text-sm text-gray-500 mt-2">Seconds</span>
                   </div>
                 </div>
-                
-                {message && <div className="bg-gray-50 px-6 py-4 rounded-lg border border-gray-100 mt-4">
-                    <p className={`text-center ${textColor}`}>{message}</p>
-                  </div>}
-
-                {gifUrl && <div className="mt-6">
-                    <img src={gifUrl} alt="GIF" className="mx-auto max-h-80 object-contain rounded" />
-                    <div className="mt-2 flex justify-end">
-                      <Button variant="ghost" size="sm" className="h-6 px-2 py-0 text-xs" onClick={() => window.open("https://giphy.com/", "_blank")}>
-                        <span>Via Giphy</span>
-                        <ExternalLink className="ml-1 h-3 w-3" />
-                      </Button>
-                    </div>
-                  </div>}
               </>
             )}
           </CardContent>
