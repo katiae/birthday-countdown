@@ -322,10 +322,10 @@ const BirthdayForm: React.FC = () => {
             </div>
             
             <div className="space-y-1">
-              <Label htmlFor="message">Message (Optional)</Label>
+              <Label htmlFor="message">Personalised countdown message (Optional)</Label>
               <Textarea 
                 id="message" 
-                placeholder="Add a personal message" 
+                placeholder="Add a personal message that will appear on the countdown days before the birthday" 
                 value={message} 
                 onChange={e => setMessage(e.target.value)} 
                 className="border-gray-300 focus:border-gray-400 focus:ring-birthday min-h-[100px] resize-none" 
