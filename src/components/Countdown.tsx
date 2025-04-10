@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import ConfettiExplosion from "@/components/ConfettiExplosion";
 import { Link } from "react-router-dom";
+import Confetti from "react-confetti";
+
 interface CountdownProps {
   name: string;
   month: number;
@@ -14,6 +16,7 @@ interface CountdownProps {
   birthdayGifUrl?: string;
   textColor?: string;
 }
+
 const Countdown: React.FC<CountdownProps> = ({
   name,
   month,
@@ -22,7 +25,7 @@ const Countdown: React.FC<CountdownProps> = ({
   birthdayMessage,
   gifUrl,
   birthdayGifUrl,
-  textColor = ""
+  textColor = "text-zinc-800"
 }) => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -32,58 +35,104 @@ const Countdown: React.FC<CountdownProps> = ({
   });
   const [isToday, setIsToday] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [isBehind, setIsBehind] = useState(false);
+  const [confettiRecycle, setConfettiRecycle] = useState(true);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
   useEffect(() => {
     document.title = isToday ? "Today is your day" : "The countdown begins";
   }, [isToday]);
+
   useEffect(() => {
-    const checkBirthday = () => {
-      const now = new Date();
-      const todayIsBirthday = now.getDate() === day && now.getMonth() === month - 1;
-      setIsToday(todayIsBirthday);
-      if (todayIsBirthday) {
-        setShowConfetti(true);
-        const confettiTimer = setTimeout(() => {
-          setShowConfetti(false);
-        }, 8000);
-        return () => clearTimeout(confettiTimer);
-      }
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
     };
 
-    // Initial check
-    checkBirthday();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
       const currentYear = now.getFullYear();
-      let birthdayThisYear = new Date(currentYear, month - 1, day);
-      if (now > birthdayThisYear) {
-        birthdayThisYear = new Date(currentYear + 1, month - 1, day);
-        setIsBehind(true);
-      } else {
-        setIsBehind(false);
+      const birthday = new Date(currentYear, month - 1, day);
+      
+      // Check if today is the birthday
+      const isBirthdayToday = 
+        now.getDate() === day && 
+        now.getMonth() === month - 1;
+      
+      if (isBirthdayToday) {
+        setIsToday(true);
+        setShowConfetti(true);
+        setConfettiRecycle(true);
+        
+        setTimeout(() => setConfettiRecycle(false), 1500);
+        setTimeout(() => setShowConfetti(false), 8000);
+        
+        return {
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+        };
       }
-      const difference = birthdayThisYear.getTime() - now.getTime();
-      setTimeLeft({
+      
+      // If birthday has passed this year, set it to next year
+      if (birthday < now) {
+        birthday.setFullYear(currentYear + 1);
+      }
+      
+      const difference = birthday.getTime() - now.getTime();
+      
+      setIsToday(false);
+      setShowConfetti(false);
+      
+      return {
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor(difference / (1000 * 60 * 60) % 24),
-        minutes: Math.floor(difference / 1000 / 60 % 60),
-        seconds: Math.floor(difference / 1000 % 60)
-      });
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
     };
-    calculateTimeLeft();
-    const timer = setInterval(calculateTimeLeft, 1000);
+    
+    setTimeLeft(calculateTimeLeft());
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+    
     return () => clearInterval(timer);
   }, [month, day]);
+
   const formatDate = () => {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return `${months[month - 1]} ${day}`;
   };
-  return <div className="relative w-full max-w-2xl px-4">
-      {showConfetti && <ConfettiExplosion />}
-      
-      <Card className="border-gray-200 rounded-3xl overflow-hidden max-w-2xl w-full">
-        <CardContent className="p-8">
-          {isToday ? <>
+
+  return (
+    <>
+      {showConfetti && (
+        <Confetti
+          width={windowSize.width}
+          height={windowSize.height}
+          recycle={confettiRecycle}
+          numberOfPieces={200}
+          gravity={0.1}
+          initialVelocityY={5}
+          wind={0.01}
+          style={{ position: 'fixed', top: 0, left: 0, zIndex: 1000 }}
+        />
+      )}
+      <div className="relative w-full max-w-2xl px-4">
+        <Card className="border-gray-200 rounded-3xl overflow-hidden max-w-2xl w-full">
+          <CardContent className="p-8">
+            {isToday ? (
               <div className="text-center space-y-2">
                 <h2 className={`text-2xl font-bold ${textColor}`}>Today is your day!</h2>
                 {birthdayMessage && (
@@ -99,57 +148,62 @@ const Countdown: React.FC<CountdownProps> = ({
                   </div>
                 )}
               </div>
-            </> : <>
-              <h1 className={`text-4xl font-bold ${textColor}`}>
-                <span className="block text-center">{isBehind ? `${name}'s next birthday in` : `${name}'s birthday in`}</span>
-              </h1>
-              
-              <div className="flex justify-center gap-4 mt-6">
-                <div className="flex flex-col items-center">
-                  <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
-                    {timeLeft.days}
+            ) : (
+              <>
+                <h1 className={`text-4xl font-bold ${textColor}`}>
+                  <span className="block text-center">{timeLeft.days > 0 ? `${name}'s birthday in` : "Happy Birthday, " + name + "!"}</span>
+                </h1>
+                
+                <div className="flex justify-center gap-4 mt-6">
+                  <div className="flex flex-col items-center">
+                    <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
+                      {timeLeft.days}
+                    </div>
+                    <span className="text-xs text-gray-500 mt-1">Days</span>
                   </div>
-                  <span className="text-xs text-gray-500 mt-1">Days</span>
+                  
+                  <div className="flex flex-col items-center">
+                    <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
+                      {timeLeft.hours}
+                    </div>
+                    <span className="text-xs text-gray-500 mt-1">Hours</span>
+                  </div>
+                  
+                  <div className="flex flex-col items-center">
+                    <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
+                      {timeLeft.minutes}
+                    </div>
+                    <span className="text-xs text-gray-500 mt-1">Minutes</span>
+                  </div>
+                  
+                  <div className="flex flex-col items-center">
+                    <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
+                      {timeLeft.seconds}
+                    </div>
+                    <span className="text-xs text-gray-500 mt-1">Seconds</span>
+                  </div>
                 </div>
                 
-                <div className="flex flex-col items-center">
-                  <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
-                    {timeLeft.hours}
-                  </div>
-                  <span className="text-xs text-gray-500 mt-1">Hours</span>
-                </div>
-                
-                <div className="flex flex-col items-center">
-                  <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
-                    {timeLeft.minutes}
-                  </div>
-                  <span className="text-xs text-gray-500 mt-1">Minutes</span>
-                </div>
-                
-                <div className="flex flex-col items-center">
-                  <div className={`text-4xl font-bold ${textColor} rounded-xl w-16 h-16 flex items-center justify-center bg-zinc-100`}>
-                    {timeLeft.seconds}
-                  </div>
-                  <span className="text-xs text-gray-500 mt-1">Seconds</span>
-                </div>
-              </div>
-              
-              {message && <div className="bg-gray-50 px-6 py-4 rounded-lg border border-gray-100 mt-4">
-                  <p className={`text-center ${textColor}`}>{message}</p>
-                </div>}
+                {message && <div className="bg-gray-50 px-6 py-4 rounded-lg border border-gray-100 mt-4">
+                    <p className={`text-center ${textColor}`}>{message}</p>
+                  </div>}
 
-              {gifUrl && <div className="mt-6">
-                  <img src={gifUrl} alt="GIF" className="mx-auto max-h-80 object-contain rounded" />
-                  <div className="mt-2 flex justify-end">
-                    <Button variant="ghost" size="sm" className="h-6 px-2 py-0 text-xs" onClick={() => window.open("https://giphy.com/", "_blank")}>
-                      <span>Via Giphy</span>
-                      <ExternalLink className="ml-1 h-3 w-3" />
-                    </Button>
-                  </div>
-                </div>}
-            </>}
-        </CardContent>
-      </Card>
-    </div>;
+                {gifUrl && <div className="mt-6">
+                    <img src={gifUrl} alt="GIF" className="mx-auto max-h-80 object-contain rounded" />
+                    <div className="mt-2 flex justify-end">
+                      <Button variant="ghost" size="sm" className="h-6 px-2 py-0 text-xs" onClick={() => window.open("https://giphy.com/", "_blank")}>
+                        <span>Via Giphy</span>
+                        <ExternalLink className="ml-1 h-3 w-3" />
+                      </Button>
+                    </div>
+                  </div>}
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </>
+  );
 };
+
 export default Countdown;
