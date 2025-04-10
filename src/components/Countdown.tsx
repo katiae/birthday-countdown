@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -148,25 +149,11 @@ const Countdown: React.FC<CountdownProps> = ({
               </div>
             ) : (
               <>
-                <h1 className={`text-5xl font-bold ${textColor}`}>
+                <h1 className={`text-5xl font-bold ${textColor} mb-6`}>
                   <span className="block text-center">{`${name}'s birthday in`}</span>
                 </h1>
                 
-                {message && (
-                  <p className={`mt-6 text-xl ${textColor} text-center`}>{message}</p>
-                )}
-                
-                {gifUrl && (
-                  <div className="mt-8">
-                    <img
-                      src={gifUrl}
-                      alt="Countdown GIF"
-                      className="mx-auto max-h-64 rounded-lg"
-                    />
-                  </div>
-                )}
-                
-                <div className="flex justify-center gap-6 mt-8">
+                <div className="flex justify-center gap-6 mb-8">
                   <div className="flex flex-col items-center">
                     <div className={`text-5xl font-bold ${textColor} rounded-xl w-20 h-20 flex items-center justify-center bg-zinc-100`}>
                       {timeLeft.days}
@@ -195,6 +182,20 @@ const Countdown: React.FC<CountdownProps> = ({
                     <span className="text-sm text-gray-500 mt-2">Seconds</span>
                   </div>
                 </div>
+                
+                {message && (
+                  <p className={`mt-6 text-xl ${textColor} text-center`}>{message}</p>
+                )}
+                
+                {gifUrl && (
+                  <div className="mt-8">
+                    <img
+                      src={gifUrl}
+                      alt="Countdown GIF"
+                      className="mx-auto max-h-64 rounded-lg"
+                    />
+                  </div>
+                )}
               </>
             )}
           </CardContent>
