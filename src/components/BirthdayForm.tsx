@@ -509,7 +509,7 @@ const BirthdayForm: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <Label>Add a Birthday GIF (optional)</Label>
+              <Label>Add a Birthday GIF (Optional)</Label>
               
               {birthdayGifUrl ? (
                 <div className="relative">
