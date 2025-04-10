@@ -70,9 +70,9 @@ const Index: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md text-center mb-8">
-        <h1 className="text-4xl font-bold text-birthday flex items-center justify-center gap-2">
-          <Cake className="h-8 w-8" />
+      <div className="w-full max-w-3xl text-center mb-8">
+        <h1 className="text-2xl font-bold text-birthday flex items-center justify-center gap-2">
+          <Cake className="h-6 w-6" />
           <span>{showCountdown ? "Birthday Countdown" : "Birthday countdown"}</span>
         </h1>
       </div>
