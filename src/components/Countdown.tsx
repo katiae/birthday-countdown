@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -64,7 +63,6 @@ const Countdown: React.FC<CountdownProps> = ({
       const currentYear = now.getFullYear();
       const birthday = new Date(currentYear, month - 1, day);
       
-      // Check if today is the birthday
       const isBirthdayToday = 
         now.getDate() === day && 
         now.getMonth() === month - 1;
@@ -85,7 +83,6 @@ const Countdown: React.FC<CountdownProps> = ({
         };
       }
       
-      // If birthday has passed this year, set it to next year
       if (birthday < now) {
         birthday.setFullYear(currentYear + 1);
       }
@@ -152,7 +149,7 @@ const Countdown: React.FC<CountdownProps> = ({
             ) : (
               <>
                 <h1 className={`text-5xl font-bold ${textColor}`}>
-                  <span className="block text-center">{timeLeft.days > 0 ? `${name}'s birthday in` : "Happy Birthday, " + name + "!"}</span>
+                  <span className="block text-center">{`${name}'s birthday in`}</span>
                 </h1>
                 
                 {message && (
