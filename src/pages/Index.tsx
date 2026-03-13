@@ -73,7 +73,7 @@ const Index: React.FC = () => {
       <div className="w-full max-w-3xl text-center mb-8">
         <h1 className="text-2xl font-bold text-birthday flex items-center justify-center gap-2">
           <Cake className="h-6 w-6" />
-          <span>{showCountdown ? "Birthday Countdown" : "Birthday countdown"}</span>
+          <span>{showCountdown ? "Event Countdown" : "Event countdown"}</span>
         </h1>
       </div>
 
